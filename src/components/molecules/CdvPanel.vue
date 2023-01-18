@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import { useScrollTarget } from "@/composables/useScrollTarget";
-import { useShowOnce } from "@/composables/useShowOnce";
-import { useElementVisibility } from "@vueuse/core";
+import { useShowAnim } from "@/composables/useShowAnim.js";
 import { ref } from "vue";
 
 export interface CdvPanelProps {
@@ -17,7 +15,7 @@ withDefaults(defineProps<CdvPanelProps>(), {
 });
 
 const container = ref<HTMLDivElement>();
-const show = useShowOnce(container);
+const show = useShowAnim(container);
 </script>
 
 <template>

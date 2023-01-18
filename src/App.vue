@@ -100,9 +100,8 @@ const inlineNavbar = computed(
     overflow-y: auto;
     overflow-x: hidden;
     scroll-snap-type: y mandatory;
-    scroll-snap-stop: normal;
+    scroll-snap-stop: always !important;
     scroll-behavior: smooth;
-    scroll-margin: 25%;
 
     > .cdv-page {
       scroll-snap-align: start;

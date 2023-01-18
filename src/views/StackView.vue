@@ -3,7 +3,7 @@ import CdvStackList, {
   type CdvStackListProps,
 } from "@/components/molecules/CdvStackList.vue";
 import { ref } from "vue";
-import { useShowOnce } from "@/composables/useShowOnce";
+import { useShowAnim } from "@/composables/useShowAnim.js";
 import techIcons from "@/lib/tech-icons";
 
 const stack: CdvStackListProps[] = [
@@ -50,41 +50,21 @@ const stack: CdvStackListProps[] = [
 ];
 
 const page = ref<HTMLElement>();
-const show = useShowOnce(page);
+const show = useShowAnim(page);
 </script>
 
 <template>
   <div class="cdv-page cdv-stack flex items-center justify-center">
-    <div
-      class="cdv-stack-content cdv-hide-scrollbar flex items-start gap-[140px]"
-      :style="{ '--cdv-list-delay': '0.25s' }"
-      v-if="show"
-    >
+    <div class="cdv-h-scroll flex items-start gap-[140px]" v-if="show">
       <CdvStackList
         v-for="tec in stack"
         :key="tec.title"
         :title="tec.title"
         :items="tec.items"
+        class="cdv-scroll-item"
       ></CdvStackList>
     </div>
 
     <div class="cdv-page-ref" ref="page"></div>
   </div>
 </template>
-
-<style lang="scss">
-.cdv-stack {
-  &-content {
-    max-width: 100%;
-    flex: 1;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x proximity;
-    scroll-behavior: smooth;
-
-    > .cdv-stack-list {
-      scroll-snap-align: center;
-    }
-  }
-}
-</style>

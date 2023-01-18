@@ -2,12 +2,13 @@ import { ref, type ComputedRef, type Ref, watch } from "vue";
 import { useScrollTarget } from "./useScrollTarget";
 import { useElementVisibility } from "@vueuse/core";
 
-export function useShowOnce(
+export function useShowAnim(
   page:
     | Ref<HTMLElement | undefined>
     | ComputedRef<HTMLElement | undefined>
     | HTMLElement
-    | undefined
+    | undefined,
+  once = false
 ) {
   const show = ref(false);
   const scrollTarget = useScrollTarget();
@@ -18,9 +19,13 @@ export function useShowOnce(
   const unwatch = watch(
     () => isVisible.value,
     (visible) => {
-      if (visible && !show.value) {
-        show.value = true;
-        unwatch();
+      if (once) {
+        if (visible) {
+          show.value = true;
+          unwatch();
+        }
+      } else {
+        show.value = visible;
       }
     },
     {}

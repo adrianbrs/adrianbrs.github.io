@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import CdvPanel from "@/components/molecules/CdvPanel.vue";
 import { ref } from "vue";
 import { useIsMobile } from "@/composables/useIsMobile";
-import { useShowOnce } from "@/composables/useShowOnce";
+import { useShowAnim } from "@/composables/useShowAnim.js";
+import CdvPanel from "@/components/molecules/CdvPanel.vue";
 
 const isMobile = useIsMobile();
 
 const page = ref<HTMLElement>();
-const show = useShowOnce(page);
+const show = useShowAnim(page);
 </script>
 
 <template>

@@ -6,3 +6,38 @@
     display: none; /* Safari and Chrome */
   }
 }
+
+.cdv-h-scroll {
+  @extend .cdv-hide-scrollbar;
+  max-width: 100%;
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+
+  > .cdv-scroll-item {
+    scroll-snap-align: center;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cdv-scroll-mask {
+    padding-left: 16px;
+    padding-right: 16px;
+    mask-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgb(0, 0, 0) 15%,
+      rgb(0, 0, 0) 85%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgb(0, 0, 0) 15%,
+      rgb(0, 0, 0) 85%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+}
