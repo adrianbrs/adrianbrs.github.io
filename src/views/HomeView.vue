@@ -1,25 +1,5 @@
 <script lang="ts" setup>
-import {
-  linkedinIcon,
-  githubAltIcon,
-  typescriptIcon,
-  jsIcon,
-  html5Icon,
-  css3Icon,
-  goIcon,
-  phpIcon,
-  cppIcon,
-  javaIcon,
-  vueIcon,
-  angularIcon,
-  nestjsIcon,
-  nodejsIcon,
-  sassIcon,
-  postgreSqlIcon,
-  mongodbIcon,
-} from "@/assets/svg";
-import CdvIcon from "@/components/atoms/CdvIcon.vue";
-import CdvSocialBtn from "@/components/atoms/CdvSocialBtn.vue";
+import CdvSocialBtnGroup from "@/components/molecules/CdvSocialBtnGroup.vue";
 import CdvTechIcon from "@/components/molecules/CdvTechIcon.vue";
 import techIcons from "@/lib/tech-icons";
 
@@ -46,48 +26,67 @@ const rightIcons = [
 </script>
 
 <template>
-  <div class="cdv-home">
+  <div class="cdv-page cdv-home">
     <section class="cdv-home-logos cdv-home-left">
-      <CdvTechIcon
-        v-for="options in leftIcons"
-        :options="options"
-        :key="options.label"
-      ></CdvTechIcon>
+      <TransitionGroup name="cdv-icon-list-left" appear>
+        <CdvTechIcon
+          v-for="(options, i) in leftIcons"
+          :options="options"
+          :key="options.label"
+          position="left"
+          :style="{
+            '--cdv-icon-list-i': i,
+          }"
+        ></CdvTechIcon>
+      </TransitionGroup>
     </section>
 
     <section class="cdv-home-mid">
-      <div class="cdv-home-heading">
-        <h1>Adrian Cerbaro</h1>
-        <h2>Full-Stack Sotfware Engineer</h2>
-      </div>
+      <Transition
+        class="!transition-delay-[1.5s] !transition-duration-[0.8s]"
+        name="cdv-scale-in"
+        appear
+      >
+        <div class="cdv-home-heading">
+          <h1>Adrian Cerbaro</h1>
 
-      <div class="cdv-home-social">
-        <CdvSocialBtn
-          :icon="linkedinIcon"
-          href="https://linkedin.com/in/adrian-cerbaro"
-        ></CdvSocialBtn>
+          <Transition
+            class="!transition-delay-[2s] !transition-duration-[0.6s]"
+            name="cdv-fade-in-up"
+            appear
+          >
+            <h2>Full-Stack Software Engineer</h2>
+          </Transition>
+        </div>
+      </Transition>
 
-        <CdvSocialBtn
-          :icon="githubAltIcon"
-          href="https://github.com/adrianbrs"
-        ></CdvSocialBtn>
-      </div>
+      <Transition
+        class="!transition-delay-[2.4s] !transition-duration-[1.5s]"
+        name="cdv-fade-in-up"
+        appear
+      >
+        <CdvSocialBtnGroup></CdvSocialBtnGroup>
+      </Transition>
     </section>
 
     <section class="cdv-home-logos cdv-home-right">
-      <CdvTechIcon
-        v-for="options in rightIcons"
-        :options="options"
-        :key="options.label"
-      ></CdvTechIcon>
+      <TransitionGroup name="cdv-icon-list-right" appear d>
+        <CdvTechIcon
+          v-for="(options, i) in rightIcons"
+          :options="options"
+          :key="options.label"
+          position="right"
+          :style="{
+            '--cdv-icon-list-i': i,
+          }"
+        ></CdvTechIcon>
+      </TransitionGroup>
     </section>
   </div>
 </template>
 
 <style scoped lang="scss">
 .cdv-home {
-  width: 100%;
-  min-height: var(--app-content-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -108,12 +107,6 @@ const rightIcons = [
     align-items: center;
     justify-content: center;
     flex: 1 0 auto;
-
-    .cdv-home-social {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
   }
 
   &-heading {
@@ -150,6 +143,7 @@ const rightIcons = [
     scroll-snap-type: x mandatory;
     scroll-padding: 50%;
     scroll-snap-stop: normal;
+    padding: 4px;
 
     &::-webkit-scrollbar {
       display: none; /* Safari and Chrome */
@@ -165,6 +159,10 @@ const rightIcons = [
   .cdv-home {
     flex-direction: column;
     padding: 32px 0;
+
+    &-mid {
+      margin: 32px 0;
+    }
 
     &-heading {
       > h1 {

@@ -5,17 +5,21 @@ import CdvIcon from "../atoms/CdvIcon.vue";
 export interface CdvTechIconProps {
   options: CdvTechIconOptions;
   size?: number;
+  position: "left" | "right";
 }
 
 withDefaults(defineProps<CdvTechIconProps>(), {
   size: 32,
+  position: "right",
 });
 </script>
 
 <template>
   <div
-    class="cdv-tech-icon"
-    :style="{ '--timing': `${(1.5 + Math.random()).toFixed(1)}s` }"
+    :class="{
+      'cdv-tech-icon': true,
+      'cdv-tech-icon--left': position === 'left',
+    }"
   >
     <CdvIcon :icon="options.icon" :size="size"></CdvIcon>
     <span class="cdv-tech-icon-label">{{ options.label }}</span>
@@ -29,6 +33,20 @@ withDefaults(defineProps<CdvTechIconProps>(), {
   gap: 0.5rem;
   font-size: 0.86rem;
   transform-origin: 0 50%;
+
+  &--left {
+    flex-direction: row-reverse;
+    transform-origin: 100% 50%;
+
+    .cdv-tech-icon {
+      &-label {
+        transform-origin: 67% 50%;
+        padding-right: 0;
+        padding-left: 1.5rem;
+        transform: translate3d(1.2rem, 0, 0) scale3d(0.4, 0.4, 1);
+      }
+    }
+  }
 
   .cdv-icon {
     cursor: help;
@@ -62,8 +80,14 @@ withDefaults(defineProps<CdvTechIconProps>(), {
 }
 
 @media screen and (max-width: 768px) {
-  .cdv-tech-icon-label {
-    display: none !important;
+  .cdv-tech-icon {
+    .cdv-icon {
+      cursor: default;
+    }
+
+    &-label {
+      display: none !important;
+    }
   }
 }
 </style>

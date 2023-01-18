@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref, watchEffect } from "vue";
+import { ref } from "vue";
 import CdvMenuBtn from "../atoms/CdvMenuBtn.vue";
 import CdvBackdrop from "../atoms/CdvBackdrop.vue";
 import CdvNavLink from "../atoms/CdvNavLink.vue";
@@ -14,7 +14,7 @@ export interface CdvNavbarProps {
   items: CdvNavbarItem[];
 }
 
-const props = withDefaults(defineProps<CdvNavbarProps>(), {
+withDefaults(defineProps<CdvNavbarProps>(), {
   inline: true,
 });
 
@@ -99,25 +99,11 @@ const toggle = () => {
   &-btn {
     display: inline-flex;
     position: absolute;
-    right: 0;
     top: 16px;
     color: var(--cdv-c-white);
     cursor: pointer;
     z-index: 9999;
     right: 32px;
-  }
-
-  &-backdrop {
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--color-background-backdrop);
-    z-index: 999;
   }
 
   &--fixed {

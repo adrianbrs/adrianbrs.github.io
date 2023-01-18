@@ -1,19 +1,31 @@
 <script lang="ts" setup>
 import { mdiChevronRight } from "@mdi/js";
-import { useScroll, useWindowSize } from "@vueuse/core";
 import { computed } from "vue";
 import CdvIcon from "@/components/atoms/CdvIcon.vue";
 
 export interface CdvPageIndicatorProps {
   items: string[];
+  heights: number[];
+  scrollTop: number;
 }
 
 const props = defineProps<CdvPageIndicatorProps>();
 
-const { y } = useScroll(window);
-const { height } = useWindowSize();
-const transfromY = computed(() => {
-  return Math.min((y.value / height.value) * 64, (props.items.length - 1) * 64);
+const distances = computed(() =>
+  props.heights.reduce((arr, d, i) => {
+    return [...arr, d + (arr[i - 1] ?? 0)];
+  }, [] as number[])
+);
+
+const position = computed(() => {
+  const index = distances.value.findIndex(
+    (d, i, arr) => props.scrollTop < d || i === arr.length - 1
+  );
+  const height = props.heights[index];
+  const distance = distances.value[index];
+  const relativeDistance = height - (distance - props.scrollTop);
+  const percentage = relativeDistance / height;
+  return Math.min(index * 64 + percentage * 64, (props.items.length - 1) * 64);
 });
 </script>
 
@@ -24,7 +36,7 @@ const transfromY = computed(() => {
       <div
         class="cdv-page-indicator-items"
         :style="{
-          transform: `translate3d(0, ${-transfromY}px, 0)`,
+          transform: `translate3d(0, ${-position}px, 0)`,
         }"
       >
         <span v-for="name in items" :key="name">{{ name }}</span>
@@ -40,7 +52,7 @@ const transfromY = computed(() => {
   align-items: flex-start;
   height: 64px;
   top: 0;
-  left: var(--app-spacing);
+  left: calc(var(--app-spacing) / 2);
   overflow: hidden;
   font-weight: 600;
   font-size: 0.86rem;
