@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" fill="none" viewBox="0 0 32 32">
+  <mask id="a" width="25" height="30" x="4" y="1" maskUnits="userSpaceOnUse" style="mask-type:luminance">
+    <path fill="#fff" d="m28.23 14.846-8.076 8.077L28.23 31H19l-3.462-3.462-4.616-4.616L19 14.845l9.23.001ZM19 1 4 16l4.616 4.616L28.23 1H19Z"/>
+  </mask>
+  <g mask="url(#a)">
+    <path fill="url(#b)" d="M9.455 13.481h21.606v16.766H9.455z"/>
+    <path fill="#54C5F8" d="M28.23 14.846H19l-8.076 8.078 4.614 4.614L28.23 14.846Z"/>
+  </g>
+  <mask id="c" width="25" height="30" x="4" y="1" maskUnits="userSpaceOnUse" style="mask-type:luminance">
+    <path fill="#fff" d="m28.23 14.846-8.076 8.077L28.23 31H19l-3.462-3.462-4.616-4.616L19 14.845l9.23.001ZM19 1 4 16l4.616 4.616L28.23 1H19Z"/>
+  </mask>
+  <g mask="url(#c)">
+    <path fill="#54C5F8" d="M8.616 20.616 4 16 19 1h9.23L8.617 20.616Z"/>
+  </g>
+  <mask id="d" width="25" height="30" x="4" y="1" maskUnits="userSpaceOnUse" style="mask-type:luminance">
+    <path fill="#fff" d="m28.23 14.846-8.076 8.077L28.23 31H19l-3.462-3.462-4.616-4.616L19 14.845l9.23.001ZM19 1 4 16l4.616 4.616L28.23 1H19Z"/>
+  </mask>
+  <g mask="url(#d)">
+    <path fill="#01579B" d="M15.538 27.538 19 31.001h9.23l-8.075-8.077-4.617 4.614Z"/>
+  </g>
+  <mask id="e" width="25" height="30" x="4" y="1" maskUnits="userSpaceOnUse" style="mask-type:luminance">
+    <path fill="#fff" d="m28.23 14.846-8.076 8.077L28.23 31H19l-3.462-3.462-4.616-4.616L19 14.845l9.23.001ZM19 1 4 16l4.616 4.616L28.23 1H19Z"/>
+  </mask>
+  <g mask="url(#e)">
+    <path fill="url(#f)" d="m15.538 27.538 6.846-2.369-2.23-2.245-4.616 4.614Z"/>
+  </g>
+  <mask id="g" width="25" height="30" x="4" y="1" maskUnits="userSpaceOnUse" style="mask-type:luminance">
+    <path fill="#fff" d="m28.23 14.846-8.076 8.077L28.23 31H19l-3.462-3.462-4.616-4.616L19 14.845l9.23.001ZM19 1 4 16l4.616 4.616L28.23 1H19Z"/>
+  </mask>
+  <g mask="url(#g)">
+    <path fill="#29B6F6" d="m15.539 18.309-4.616 4.615 4.616 4.615 4.615-4.615-4.615-4.615Z"/>
+  </g>
+  <path fill="url(#h)" d="m28.23 14.846-8.076 8.077L28.23 31H19l-3.462-3.462-4.616-4.616L19 14.845l9.23.001ZM19 1 4 16l4.616 4.616L28.23 1H19Z"/>
+  <defs>
+    <radialGradient id="h" cx="0" cy="0" r="1" gradientTransform="translate(4.682 3.045) scale(36.7038)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff" stop-opacity=".1"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="f" x1="16.885" x2="20.322" y1="28.43" y2="24.992" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1A237E" stop-opacity=".4"/>
+      <stop offset="1" stop-color="#1A237E" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="b" width="1" height="1" patternContentUnits="objectBoundingBox">
+      <use xlink:href="#i" transform="scale(.00787 .0101)"/>
+    </pattern>
+  </defs>
+</svg>

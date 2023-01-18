@@ -1,0 +1,50 @@
+:root {
+  --cdv-c-white: #ffffff;
+  --cdv-c-white-soft: #f8f8f8;
+  --cdv-c-white-mute: #f2f2f2;
+
+  --cdv-c-black: #181818;
+  --cdv-c-black-soft: #222222;
+  --cdv-c-black-mute: #282828;
+
+  --cdv-c-indigo: #2c3e50;
+
+  --cdv-c-divider-light-1: rgba(60, 60, 60, 0.29);
+  --cdv-c-divider-light-2: rgba(60, 60, 60, 0.12);
+  --cdv-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+  --cdv-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+
+  --cdv-c-text-light-1: var(--cdv-c-indigo);
+  --cdv-c-text-light-2: rgba(60, 60, 60, 0.66);
+  --cdv-c-text-dark-1: var(--cdv-c-white);
+  --cdv-c-text-dark-2: rgba(235, 235, 235, 0.64);
+}
+
+:root {
+  --color-background-1: #003661;
+  --color-background-2: #001b30;
+
+  --color-background-backdrop: rgba(0, 0, 0, 0.75);
+
+  --color-heading: var(--cdv-c-text-dark-1);
+  --color-text: var(--cdv-c-text-dark-2);
+
+  --app-spacing: 64px;
+  --app-navbar-height: 64px;
+  --app-max-width: 1366px;
+  --app-content-height: calc(
+    100vh - var(--app-navbar-height) - var(--app-spacing)
+  );
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --app-spacing: 32px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  :root {
+    --app-spacing: 16px;
+  }
+}

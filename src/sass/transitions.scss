@@ -1,0 +1,28 @@
+/**
+ * Fade
+ */
+.fade {
+  &-enter-active,
+  &-leave-active {
+    transition: opacity 0.25s ease;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0 !important;
+  }
+}
+
+.fade-out-down {
+  &-leave-active {
+    transition: all 0.25s ease;
+  }
+
+  &-leave-to {
+    opacity: 0 !important;
+  }
+
+  &-leave-to {
+    transform: translate3d(0, 1.6em, 0);
+  }
+}
