@@ -12,6 +12,7 @@ import StackView from "./views/StackView.vue";
 import ProjectsVuew from "./views/ProjectsView.vue";
 import ContactView from "./views/ContactView.vue";
 import CdvFooter from "./components/organisms/CdvFooter.vue";
+import { useScrollTarget } from "./composables/useScrollTarget";
 
 const particlesInit = async (engine: any) => {
   await loadFull(engine);
@@ -45,7 +46,8 @@ const navItems: CdvNavbarItem[] = [
   { text: "Contact", to: "#contact" },
 ];
 
-const container = ref<HTMLDivElement | undefined>();
+const container = useScrollTarget();
+// const container = ref<HTMLDivElement | undefined>();
 const { width } = useWindowSize();
 const { y: scrollTop } = useScroll(container);
 
@@ -58,12 +60,6 @@ const inlineNavbar = computed(
 
 <template>
   <div class="cdv-app">
-    <!-- <Particles
-      id="app-particles"
-      url="/particles.json"
-      :particlesInit="particlesInit"
-    /> -->
-
     <CdvPageIndicator
       :items="navItems.map(({ text }) => text)"
       :heights="heights"
@@ -80,14 +76,19 @@ const inlineNavbar = computed(
       <ContactView id="contact" ref="contactRef" />
       <CdvFooter :items="navItems"></CdvFooter>
     </main>
+
+    <!-- <Particles
+      class="fixed z-[-1]"
+      id="app-particles"
+      url="/particles.json"
+      :particlesInit="particlesInit"
+    /> -->
   </div>
 </template>
 
 <style scoped lang="scss">
 .cdv-app {
   position: relative;
-  // max-width: var(--app-max-width);
-  // min-width: min(100vw, var(--app-max-width));
   width: 100vw;
   height: 100vh;
   padding: 0;
@@ -98,10 +99,10 @@ const inlineNavbar = computed(
     max-height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    scroll-snap-type: y proximity;
-    scroll-snap-stop: always;
+    scroll-snap-type: y mandatory;
+    scroll-snap-stop: normal;
     scroll-behavior: smooth;
-    scroll-padding: 0;
+    scroll-margin: 25%;
 
     > .cdv-page {
       scroll-snap-align: start;
@@ -115,6 +116,16 @@ const inlineNavbar = computed(
 
     > .cdv-footer {
       scroll-snap-align: end;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cdv-app {
+    .cdv-content {
+      > .cdv-page {
+        padding-bottom: calc(var(--app-spacing) * 3);
+      }
     }
   }
 }

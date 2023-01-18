@@ -27,7 +27,7 @@ const rightIcons = [
 
 <template>
   <div class="cdv-page cdv-home">
-    <section class="cdv-home-logos cdv-home-left">
+    <section class="cdv-home-logos cdv-hide-scrollbar cdv-home-left">
       <TransitionGroup name="cdv-icon-list-left" appear>
         <CdvTechIcon
           v-for="(options, i) in leftIcons"
@@ -69,8 +69,8 @@ const rightIcons = [
       </Transition>
     </section>
 
-    <section class="cdv-home-logos cdv-home-right">
-      <TransitionGroup name="cdv-icon-list-right" appear d>
+    <section class="cdv-home-logos cdv-hide-scrollbar cdv-home-right">
+      <TransitionGroup name="cdv-icon-list-right" appear>
         <CdvTechIcon
           v-for="(options, i) in rightIcons"
           :options="options"
@@ -138,16 +138,11 @@ const rightIcons = [
     max-height: 100%;
     overflow: auto;
     flex: 0 1 auto;
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
-    scrollbar-width: none; /* Firefox */
+    padding: 4px;
     scroll-snap-type: x mandatory;
     scroll-padding: 50%;
     scroll-snap-stop: normal;
-    padding: 4px;
-
-    &::-webkit-scrollbar {
-      display: none; /* Safari and Chrome */
-    }
+    scroll-behavior: smooth;
 
     > .cdv-icon {
       scroll-snap-align: start;

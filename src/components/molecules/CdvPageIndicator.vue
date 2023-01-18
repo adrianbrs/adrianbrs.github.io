@@ -2,14 +2,18 @@
 import { mdiChevronRight } from "@mdi/js";
 import { computed } from "vue";
 import CdvIcon from "@/components/atoms/CdvIcon.vue";
+import { useScrollTarget } from "@/composables/useScrollTarget";
+import { useScroll } from "@vueuse/core";
 
 export interface CdvPageIndicatorProps {
   items: string[];
   heights: number[];
-  scrollTop: number;
 }
 
 const props = defineProps<CdvPageIndicatorProps>();
+
+const scrollTarget = useScrollTarget();
+const { y: scrollTop } = useScroll(scrollTarget);
 
 const distances = computed(() =>
   props.heights.reduce((arr, d, i) => {
@@ -19,11 +23,11 @@ const distances = computed(() =>
 
 const position = computed(() => {
   const index = distances.value.findIndex(
-    (d, i, arr) => props.scrollTop < d || i === arr.length - 1
+    (d, i, arr) => scrollTop.value < d || i === arr.length - 1
   );
   const height = props.heights[index];
   const distance = distances.value[index];
-  const relativeDistance = height - (distance - props.scrollTop);
+  const relativeDistance = height - (distance - scrollTop.value);
   const percentage = relativeDistance / height;
   return Math.min(index * 64 + percentage * 64, (props.items.length - 1) * 64);
 });

@@ -2,6 +2,8 @@ import {
   angularIcon,
   cppIcon,
   css3Icon,
+  expressIcon,
+  flutterIcon,
   goIcon,
   html5Icon,
   javaIcon,
@@ -9,11 +11,15 @@ import {
   mongodbIcon,
   nestjsIcon,
   nodejsIcon,
+  nuxtjsIcon,
   phpIcon,
   postgreSqlIcon,
+  reactNativeIcon,
   sassIcon,
+  socketioIcon,
   typescriptIcon,
   vueIcon,
+  vuetifyIcon,
 } from "@/assets/svg";
 
 export interface CdvTechIconOptions {
@@ -38,6 +44,12 @@ const techIcons = {
   sassIcon: { icon: sassIcon, label: "Sass" },
   postgreSqlIcon: { icon: postgreSqlIcon, label: "PostgreSQL" },
   mongodbIcon: { icon: mongodbIcon, label: "MongoDB" },
+  vuetifyIcon: { icon: vuetifyIcon, label: "Vuetify" },
+  nuxtjsIcon: { icon: nuxtjsIcon, label: "NuxtJS" },
+  expressIcon: { icon: expressIcon, label: "ExpressJS " },
+  socketIoIcon: { icon: socketioIcon, label: "Socket.IO" },
+  reactNativeIcon: { icon: reactNativeIcon, label: "React Native" },
+  flutterIcon: { icon: flutterIcon, label: "Flutter" },
 } as const;
 
 export default techIcons;
