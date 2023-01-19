@@ -61,6 +61,7 @@ const position = computed(() => {
   font-weight: 600;
   font-size: 0.86rem;
   color: var(--cdv-c-white);
+  pointer-events: initial;
   mask-image: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0) 0%,
@@ -86,7 +87,8 @@ const position = computed(() => {
     max-width: var(--app-max-width);
     height: 64px;
     transform: translate3d(-50%, 0, 0);
-    z-index: -1;
+    z-index: 999;
+    pointer-events: none;
   }
 
   &-items {

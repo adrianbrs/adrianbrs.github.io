@@ -16,7 +16,7 @@ withDefaults(defineProps<CdvNavLinkProps>(), {});
 .cdv-nav-link {
   font-size: 1.25rem;
   cursor: pointer;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--cdv-c-white-soft);
 
   &.cdv-link-active {

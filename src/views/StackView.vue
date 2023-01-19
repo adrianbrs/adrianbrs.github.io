@@ -55,7 +55,7 @@ const show = useShowAnim(page);
 
 <template>
   <div class="cdv-page cdv-stack flex items-center justify-center">
-    <div class="cdv-h-scroll flex items-start gap-[140px]" v-if="show">
+    <div class="cdv-h-scroll flex items-start gap-[120px]" v-if="show">
       <CdvStackList
         v-for="tec in stack"
         :key="tec.title"
