@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { ref } from "vue";
 import CdvMenuBtn from "../atoms/CdvMenuBtn.vue";
 import CdvBackdrop from "../atoms/CdvBackdrop.vue";
 import CdvNavLink from "../atoms/CdvNavLink.vue";
+import { useNavbarMenu } from "@/composables/useNavbarMenu";
 
 export interface CdvNavbarItem {
   to: string;
@@ -18,11 +18,7 @@ withDefaults(defineProps<CdvNavbarProps>(), {
   inline: true,
 });
 
-const open = ref(false);
-
-const toggle = () => {
-  open.value = !open.value;
-};
+const { isOpen, toggle } = useNavbarMenu();
 </script>
 
 <template>
@@ -50,7 +46,7 @@ const toggle = () => {
           tag="div"
           class="cdv-navbar-items"
           name="cdv-navlist"
-          v-if="open"
+          v-if="isOpen"
           appear
         >
           <CdvNavLink
@@ -64,12 +60,12 @@ const toggle = () => {
       </Transition>
 
       <a class="cdv-nolink cdv-navbar-btn" v-if="!inline">
-        <CdvMenuBtn @click="toggle" :close="open"></CdvMenuBtn>
+        <CdvMenuBtn @click="toggle" :close="isOpen"></CdvMenuBtn>
       </a>
     </div>
   </Transition>
 
-  <CdvBackdrop :show="!inline && open"></CdvBackdrop>
+  <CdvBackdrop :show="!inline && isOpen"></CdvBackdrop>
 </template>
 
 <style lang="scss">

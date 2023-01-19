@@ -3,23 +3,55 @@ import { ref } from "vue";
 import { useIsMobile } from "@/composables/useIsMobile";
 import { useShowAnim } from "@/composables/useShowAnim.js";
 import CdvPanel from "@/components/molecules/CdvPanel.vue";
+import CdvTextInput from "@/components/molecules/CdvTextInput.vue";
 
 const isMobile = useIsMobile();
 
 const page = ref<HTMLElement>();
 const show = useShowAnim(page);
+
+const name = ref("");
 </script>
 
 <template>
   <div class="cdv-page cdv-contact flex relative">
     <template v-if="show">
       <section class="cdv-contact-form flex-1 flex items-center justify-center">
-        <CdvPanel class="flex-1" height="auto">
-          <div class="flex-1 flex h-[100%] items-center justify-center">
-            <span>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos
-              pariatur nostrum, possimus magnam vero quaerat.
-            </span>
+        <CdvPanel height="auto">
+          <div
+            class="cdv-contact-form-col p-4 flex-1 h-[100%] items-center justify-center"
+          >
+            <div class="cdv-contact-form-row">
+              <CdvTextInput
+                v-model="name"
+                label="Your name"
+                required
+              ></CdvTextInput>
+
+              <CdvTextInput
+                v-model="name"
+                label="Email address"
+                required
+              ></CdvTextInput>
+            </div>
+
+            <div class="cdv-contact-form-row">
+              <CdvTextInput
+                v-model="name"
+                label="Phone"
+                required
+              ></CdvTextInput>
+
+              <CdvTextInput v-model="name" label="Company"></CdvTextInput>
+            </div>
+
+            <div class="cdv-contact-form-row">
+              <CdvTextInput
+                v-model="name"
+                label="Message"
+                required
+              ></CdvTextInput>
+            </div>
           </div>
         </CdvPanel>
       </section>
@@ -28,7 +60,7 @@ const show = useShowAnim(page);
         class="cdv-contact-side flex-1 flex flex-col items-center justify-center gap-[40px]"
       >
         <div
-          class="cdv-contact-heading max-w-[480px]"
+          class="cdv-contact-heading"
           :style="{ '--cdv-list-delay': '0.1s' }"
         >
           <TransitionGroup
@@ -65,6 +97,7 @@ const show = useShowAnim(page);
 
   &-heading {
     text-align: center;
+    max-width: 480px;
 
     > h1 {
       font-size: 3rem;
@@ -74,6 +107,31 @@ const show = useShowAnim(page);
 
   &-form {
     align-items: stretch !important;
+
+    &-col {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    &-row {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      width: 100%;
+
+      @media screen and (max-width: 980px) {
+        flex-direction: column;
+
+        > .cdv-input {
+          width: 100%;
+        }
+      }
+
+      > .cdv-input {
+        flex: 1 1 auto;
+      }
+    }
   }
 
   &-side {
@@ -97,11 +155,17 @@ const show = useShowAnim(page);
     justify-content: center;
     align-items: center;
 
+    &-form {
+      width: 100%;
+    }
+
     &-side {
       flex: 0 1 auto !important;
     }
 
     &-heading {
+      max-width: none;
+      width: 100%;
       text-align: left;
       background: linear-gradient(
         180deg,
@@ -111,6 +175,14 @@ const show = useShowAnim(page);
       padding: 16px;
       border-radius: 8px;
       text-shadow: 0 1px 4px rgba(#000, 0.5);
+
+      > h1 {
+        font-size: 2rem;
+      }
+
+      > p {
+        color: var(--cdv-c-white-mute);
+      }
     }
 
     &-side {

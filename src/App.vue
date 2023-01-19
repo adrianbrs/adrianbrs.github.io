@@ -47,7 +47,6 @@ const navItems: CdvNavbarItem[] = [
 ];
 
 const container = useScrollTarget();
-// const container = ref<HTMLDivElement | undefined>();
 const { width } = useWindowSize();
 const { y: scrollTop } = useScroll(container);
 
@@ -99,14 +98,14 @@ const inlineNavbar = computed(
     max-height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    scroll-snap-type: y mandatory;
-    scroll-snap-stop: always !important;
+    // scroll-snap-type: y mandatory;
+    // scroll-snap-stop: always !important;
     scroll-behavior: smooth;
 
     > .cdv-page {
       scroll-snap-align: start;
       max-width: var(--app-max-width);
-      min-width: min(100vw, var(--app-max-width));
+      min-width: min(100%, var(--app-max-width));
       margin: 0 auto;
       padding: var(--app-navbar-height) var(--app-spacing) var(--app-spacing)
         var(--app-spacing);
