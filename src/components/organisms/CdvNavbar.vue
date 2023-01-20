@@ -22,7 +22,7 @@ const { isOpen, toggle } = useNavbarMenu();
 </script>
 
 <template>
-  <Transition name="fade">
+  <Transition name="cdv-fade-up" appear>
     <div v-if="inline" class="cdv-navbar">
       <TransitionGroup
         tag="div"
@@ -41,7 +41,7 @@ const { isOpen, toggle } = useNavbarMenu();
     </div>
 
     <div v-else class="cdv-navbar cdv-navbar--fixed">
-      <Transition name="fade-out-down">
+      <Transition name="cdv-fade-out-down">
         <TransitionGroup
           tag="div"
           class="cdv-navbar-items"
@@ -58,6 +58,10 @@ const { isOpen, toggle } = useNavbarMenu();
           >
         </TransitionGroup>
       </Transition>
+
+      <div class="cdv-navbar-title">
+        <slot></slot>
+      </div>
 
       <a class="cdv-nolink cdv-navbar-btn" v-if="!inline">
         <CdvMenuBtn @click="toggle" :close="isOpen"></CdvMenuBtn>
@@ -83,6 +87,14 @@ const { isOpen, toggle } = useNavbarMenu();
   z-index: 999;
   left: 0;
   right: 0;
+  filter: drop-shadow(1px 1px var(--cdv-c-indigo))
+    drop-shadow(0 0 6px rgba(0, 0, 0, 0.4));
+
+  &-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--cdv-c-white);
+  }
 
   &-items {
     display: flex;
@@ -114,11 +126,12 @@ const { isOpen, toggle } = useNavbarMenu();
         width: 100vw;
         height: 100vh;
         top: 0;
-        left: 0;
         right: 0;
         bottom: 0;
+        left: 50%;
         flex-direction: column;
         align-items: center;
+        transform: translate3d(-50%, 0, 0);
 
         .cdv-nav-link {
           font-size: 1.8rem;

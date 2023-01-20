@@ -74,14 +74,13 @@ const onSubmit = (values: any) => {
       <section
         class="cdv-contact-side flex-1 flex flex-col items-center justify-center gap-[40px]"
       >
-        <Transition name="fade" appear>
+        <Transition name="cdv-fade" appear>
           <div
             class="cdv-contact-heading"
             :style="{ '--cdv-list-delay': '0.1s' }"
           >
             <TransitionGroup
               :name="`cdv-list-fade-in-${isMobile ? 'left' : 'up'}`"
-              class="!transition-delay-[0.5s]"
               appear
             >
               <h1 key="touch" :style="{ '--cdv-list-i': 0 }">Get In Touch</h1>

@@ -52,9 +52,8 @@ const { y: scrollTop } = useScroll(container);
 
 const isMobile = computed(() => width.value < 768);
 const scrollTreshold = ref(50);
-const inlineNavbar = computed(
-  () => !isMobile.value && scrollTop.value < scrollTreshold.value
-);
+const isScrollingDown = computed(() => scrollTop.value > scrollTreshold.value);
+const inlineNavbar = computed(() => !isMobile.value && !isScrollingDown.value);
 </script>
 
 <template>
@@ -65,7 +64,9 @@ const inlineNavbar = computed(
       :scrollTop="scrollTop"
     ></CdvPageIndicator>
 
-    <CdvNavbar :inline="inlineNavbar" :items="navItems"> </CdvNavbar>
+    <CdvNavbar :inline="inlineNavbar" :items="navItems">
+      Adrian Cerbaro
+    </CdvNavbar>
 
     <main class="cdv-content" ref="container">
       <HomeView id="home" ref="homeRef" />

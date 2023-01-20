@@ -110,7 +110,7 @@ const rightIcons = [
   }
 
   &-heading {
-    max-width: 330px;
+    max-width: 375px;
     text-align: center;
     line-height: 1;
     display: block;

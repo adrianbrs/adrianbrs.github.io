@@ -74,6 +74,8 @@ const position = computed(() => {
     rgb(0, 0, 0) 50%,
     rgba(0, 0, 0, 0) 100%
   );
+  filter: drop-shadow(1px 1px var(--cdv-c-indigo))
+    drop-shadow(0 0 6px rgba(0, 0, 0, 0.4));
 
   > .cdv-icon {
     align-self: center;

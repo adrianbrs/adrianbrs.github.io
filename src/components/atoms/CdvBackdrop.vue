@@ -10,7 +10,7 @@ withDefaults(defineProps<CdvBackdropProps>(), {
 
 <template>
   <Teleport to="body">
-    <Transition name="fade">
+    <Transition name="cdv-fade">
       <div class="cdv-backdrop" v-if="show"></div>
     </Transition>
   </Teleport>
