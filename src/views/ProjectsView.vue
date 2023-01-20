@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import CdvExternalLink from "@/components/atoms/CdvExternalLink.vue";
-import CdvCard from "@/components/molecules/CdvCard.vue";
 import { useShowAnim } from "@/composables/useShowAnim.js";
 import { ref } from "vue";
-import projects from "@/lib/projects";
+import { useProjects } from "@/composables/useProjects";
+import CdvExternalLink from "@/components/atoms/CdvExternalLink.vue";
+import CdvCard from "@/components/molecules/CdvCard.vue";
 
 export interface CdvProjectOptions {
   title: string;
@@ -14,6 +14,8 @@ export interface CdvProjectOptions {
 
 const page = ref<HTMLDivElement>();
 const show = useShowAnim(page);
+
+const projects = useProjects();
 </script>
 
 <template>
@@ -22,7 +24,7 @@ const show = useShowAnim(page);
       class="cdv-h-scroll flex items-stretch gap-[64px] h-[500px]"
       v-if="show"
     >
-      <TransitionGroup name="cdv-list-fade-in" appear>
+      <TransitionGroup name="cdv-list-fade-in-up" appear>
         <CdvCard
           v-for="(project, i) in projects"
           :key="project.title"
@@ -31,7 +33,15 @@ const show = useShowAnim(page);
           :title="project.title"
         >
           <template #image>
-            <img class="!h-[290px]" :src="project.image" :alt="project.title" />
+            <div class="!h-[290px]">
+              <img
+                class="w-[auto] h-[100%]"
+                :src="project.image.src"
+                :width="project.image.width"
+                :height="project.image.height"
+                :alt="project.image.alt ?? project.title"
+              />
+            </div>
           </template>
 
           <p v-html="project.description"></p>

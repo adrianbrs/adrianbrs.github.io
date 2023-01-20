@@ -6,6 +6,7 @@ export interface CdvDividerProps {
   size?: number | string;
   vertical?: boolean;
   radius?: number | string;
+  color?: number | string;
 }
 
 withDefaults(defineProps<CdvDividerProps>(), {
@@ -24,6 +25,7 @@ withDefaults(defineProps<CdvDividerProps>(), {
       width: coercePixelValue(thickness),
       height: coercePixelValue(size),
       borderRadius: coercePixelValue(radius),
+      '--cdv-divider-color': color,
     }"
   ></div>
   <div
@@ -33,14 +35,19 @@ withDefaults(defineProps<CdvDividerProps>(), {
       height: coercePixelValue(thickness),
       width: coercePixelValue(size),
       borderRadius: coercePixelValue(radius),
+      '--cdv-divider-color': color,
     }"
   ></div>
 </template>
 
 <style lang="scss">
+:root {
+  --cdv-divider-color: var(--cdv-c-accent);
+}
+
 .cdv-divider {
   content: "";
   display: inline-flex;
-  background: var(--cdv-c-accent);
+  background: var(--cdv-divider-color);
 }
 </style>

@@ -5,6 +5,8 @@ specifiers:
   '@rushstack/eslint-patch': ^1.1.4
   '@types/jsdom': ^20.0.1
   '@types/node': ^18.11.12
+  '@vee-validate/i18n': ^4.7.3
+  '@vee-validate/rules': ^4.7.3
   '@vitejs/plugin-vue': ^4.0.0
   '@vitejs/plugin-vue-jsx': ^3.0.0
   '@vue/eslint-config-prettier': ^7.0.0
@@ -23,6 +25,7 @@ specifiers:
   tsparticles: ^2.7.1
   typescript: ~4.7.4
   unocss: ^0.48.4
+  vee-validate: ^4.7.3
   vite: ^4.0.0
   vitest: ^0.25.6
   vue: ^3.2.45
@@ -32,10 +35,13 @@ specifiers:
 
 dependencies:
   '@mdi/js': 7.1.96
+  '@vee-validate/i18n': 4.7.3
+  '@vee-validate/rules': 4.7.3
   '@vueuse/core': 9.11.0_vue@3.2.45
   lodash-es: 4.17.21
   ress: 5.0.2
   tsparticles: 2.7.1
+  vee-validate: 4.7.3_vue@3.2.45
   vue: 3.2.45
   vue-router: 4.1.6_vue@3.2.45
   vue3-particles: 2.7.1
@@ -1050,6 +1056,14 @@ packages:
     transitivePeerDependencies:
       - rollup
     dev: true
+
+  /@vee-validate/i18n/4.7.3:
+    resolution: {integrity: sha512-Zgddr5azPiLrLFISJBmEL9l4PJoFAzfootWii5wxoVbTt3NnwcA/DobK8fLtfOeUtvh6aNwQgAAt548fe4MpKg==}
+    dev: false
+
+  /@vee-validate/rules/4.7.3:
+    resolution: {integrity: sha512-lC/nYA1U7XiE/ncikyzKOqsTAa1OJGza1757zahqoPD0s/66vIR3uBBDeBUNeCOrBoq9Ga20wOVEuiBIGvOZww==}
+    dev: false
 
   /@vitejs/plugin-vue-jsx/3.0.0_vite@4.0.4+vue@3.2.45:
     resolution: {integrity: sha512-vurkuzgac5SYuxd2HUZqAFAWGTF10diKBwJNbCvnWijNZfXd+7jMtqjPFbGt7idOJUn584fP1Ar9j/GN2jQ3Ew==}
@@ -3844,6 +3858,15 @@ packages:
       spdx-correct: 3.1.1
       spdx-expression-parse: 3.0.1
     dev: true
+
+  /vee-validate/4.7.3_vue@3.2.45:
+    resolution: {integrity: sha512-1MwHLOzCrabSeChySZVVMamWStcucM1hHxapoebY9mJ7KWOvncMG19a7AlPl38zpE9pcD+G3CHKLvviGmTl5BQ==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      '@vue/devtools-api': 6.4.5
+      vue: 3.2.45
+    dev: false
 
   /vite/4.0.4_ovmyjmuuyckt3r3gpaexj2onji:
     resolution: {integrity: sha512-xevPU7M8FU0i/80DMR+YhgrzR5KS2ORy1B4xcX/cXLsvnUWvfHuqMmVU6N0YiJ4JWGRJJsLCgjEzKjG9/GKoSw==}

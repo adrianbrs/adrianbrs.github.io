@@ -1,56 +1,71 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { useIsMobile } from "@/composables/useIsMobile";
-import { useShowAnim } from "@/composables/useShowAnim.js";
+import { useShowAnim } from "@/composables/useShowAnim";
+import { useContacts } from "@/composables/useContacts";
+import { Form } from "vee-validate";
 import CdvPanel from "@/components/molecules/CdvPanel.vue";
-import CdvTextInput from "@/components/molecules/CdvTextInput.vue";
+import CdvIcon from "@/components/atoms/CdvIcon.vue";
+import CdvDivider from "@/components/atoms/CdvDivider.vue";
+import CdvContactForm from "@/components/organisms/CdvContactForm.vue";
 
 const isMobile = useIsMobile();
 
 const page = ref<HTMLElement>();
 const show = useShowAnim(page);
+const contacts = useContacts();
 
-const name = ref("");
+const onSubmit = (values: any) => {
+  console.log(values);
+};
 </script>
 
 <template>
   <div class="cdv-page cdv-contact flex relative">
     <template v-if="show">
-      <section class="cdv-contact-form flex-1 flex items-center justify-center">
+      <section
+        class="cdv-contact-panel flex-1 flex items-center justify-center"
+      >
         <CdvPanel height="auto">
-          <div
-            class="cdv-contact-form-col p-4 flex-1 h-[100%] items-center justify-center"
-          >
-            <div class="cdv-contact-form-row">
-              <CdvTextInput
-                v-model="name"
-                label="Your name"
-                required
-              ></CdvTextInput>
-
-              <CdvTextInput
-                v-model="name"
-                label="Email address"
-                required
-              ></CdvTextInput>
+          <div class="cdv-contact-panel-content">
+            <div class="cdv-contact-panel-heading">
+              <h2>Send me a Message</h2>
             </div>
 
-            <div class="cdv-contact-form-row">
-              <CdvTextInput
-                v-model="name"
-                label="Phone"
-                required
-              ></CdvTextInput>
+            <Form @submit="onSubmit">
+              <CdvContactForm />
+            </Form>
 
-              <CdvTextInput v-model="name" label="Company"></CdvTextInput>
+            <div class="flex w-[100%] justify-center">
+              <CdvDivider
+                color="var(--cdv-c-white-mute)"
+                size="max(30%, 120px)"
+                thickness="1"
+                class="my-[24px]"
+              />
             </div>
 
-            <div class="cdv-contact-form-row">
-              <CdvTextInput
-                v-model="name"
-                label="Message"
-                required
-              ></CdvTextInput>
+            <div class="cdv-contact-panel-heading mb-0">
+              <h2>Contact Details</h2>
+            </div>
+
+            <div class="flex flex-col gap-[16px] w-[100%]">
+              <div
+                v-for="contact in contacts"
+                :key="contact.label"
+                class="flex items-center gap-[16px]"
+              >
+                <CdvIcon :icon="contact.icon" />
+                <a
+                  v-if="contact.href"
+                  class="cdv-link-alt"
+                  :href="contact.href"
+                  :title="contact.title || contact.href"
+                  target="_blank"
+                  >{{ contact.label }}</a
+                >
+                <span v-else :title="contact.title">{{ contact.label }}</span>
+              </div>
             </div>
           </div>
         </CdvPanel>
@@ -59,21 +74,24 @@ const name = ref("");
       <section
         class="cdv-contact-side flex-1 flex flex-col items-center justify-center gap-[40px]"
       >
-        <div
-          class="cdv-contact-heading"
-          :style="{ '--cdv-list-delay': '0.1s' }"
-        >
-          <TransitionGroup
-            :name="`cdv-list-fade-in-${isMobile ? 'left' : 'up'}`"
-            appear
+        <Transition name="fade" appear>
+          <div
+            class="cdv-contact-heading"
+            :style="{ '--cdv-list-delay': '0.1s' }"
           >
-            <h1 key="touch" :style="{ '--cdv-list-i': 0 }">Get In Touch</h1>
-            <p key="touch-desc" :style="{ '--cdv-list-i': 1 }">
-              Use the form on the side to drop me an email. I will respond as
-              soon as possible.
-            </p>
-          </TransitionGroup>
-        </div>
+            <TransitionGroup
+              :name="`cdv-list-fade-in-${isMobile ? 'left' : 'up'}`"
+              class="!transition-delay-[0.5s]"
+              appear
+            >
+              <h1 key="touch" :style="{ '--cdv-list-i': 0 }">Get In Touch</h1>
+              <p key="touch-desc" :style="{ '--cdv-list-i': 1 }">
+                Use the form {{ isMobile ? "bellow" : "on the side" }} to drop
+                me an email. I will respond as soon as possible.
+              </p>
+            </TransitionGroup>
+          </div>
+        </Transition>
 
         <Transition
           name="cdv-fade-in-up"
@@ -105,31 +123,25 @@ const name = ref("");
     }
   }
 
-  &-form {
-    align-items: stretch !important;
+  &-panel {
+    align-items: stretch;
 
-    &-col {
+    &-content {
       display: flex;
       flex-direction: column;
       gap: 32px;
+      padding: 32px;
+      flex: 1;
+      height: 100%;
     }
 
-    &-row {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-      width: 100%;
+    &-heading {
+      margin-bottom: 24px;
 
-      @media screen and (max-width: 980px) {
-        flex-direction: column;
-
-        > .cdv-input {
-          width: 100%;
-        }
-      }
-
-      > .cdv-input {
-        flex: 1 1 auto;
+      > h2 {
+        font-weight: 500;
+        font-size: 1.5rem;
+        color: var(--cdv-c-white);
       }
     }
   }
@@ -149,14 +161,22 @@ const name = ref("");
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 890px) {
   .cdv-contact {
     flex-direction: column-reverse;
     justify-content: center;
     align-items: center;
 
-    &-form {
+    &-panel {
       width: 100%;
+
+      &-content {
+        padding: 16px;
+      }
+
+      &-heading {
+        font-size: 1.26rem;
+      }
     }
 
     &-side {

@@ -8,7 +8,7 @@ export function useShowAnim(
     | ComputedRef<HTMLElement | undefined>
     | HTMLElement
     | undefined,
-  once = false
+  once = true
 ) {
   const show = ref(false);
   const scrollTarget = useScrollTarget();
