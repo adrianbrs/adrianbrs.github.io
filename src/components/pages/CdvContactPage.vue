@@ -152,6 +152,8 @@ const onSubmit = (values: any) => {
   &-artwork {
     max-height: 100%;
     overflow: hidden;
+    filter: drop-shadow(2px 4px 4px rgba(#0c1118, 0.8))
+      drop-shadow(12px 16px 20px rgba(#0c1118, 0.4));
 
     > img {
       height: 500px;

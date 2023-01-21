@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import CdvNavLink from "../atoms/CdvNavLink.vue";
-import CdvSocialBtn from "../atoms/CdvSocialBtn.vue";
 import CdvSocialBtnGroup from "../molecules/CdvSocialBtnGroup.vue";
 
 export interface CdvFooterLink {
@@ -20,13 +18,13 @@ withDefaults(defineProps<CdvFooterProps>(), {});
     <div
       class="cdv-footer-content flex gap-[16px] items-center justify-between"
     >
-      <div class="cdv-footer-nav flex gap-[16px]" v-if="items">
-        <CdvNavLink v-for="item in items" :to="item.to" :key="item.to">{{
-          item.text
-        }}</CdvNavLink>
+      <div class="cdv-footer-nav flex gap-[16px]" v-if="$slots.nav">
+        <slot name="nav"></slot>
       </div>
 
-      <CdvSocialBtnGroup></CdvSocialBtnGroup>
+      <div class="flex flex-1 justify-end">
+        <CdvSocialBtnGroup class="justify-self-end"></CdvSocialBtnGroup>
+      </div>
     </div>
   </footer>
 </template>

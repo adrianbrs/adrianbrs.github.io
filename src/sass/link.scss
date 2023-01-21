@@ -28,7 +28,8 @@ a:not(.cdv-nolink),
 .cdv-link,
 a:not(.cdv-nolink) {
   &:not([disabled]):not(.cdv-disabled) {
-    &:hover {
+    &:hover,
+    &.cdv-link-hover {
       &:after {
         transform: scale3d(0, 1, 1);
       }
@@ -42,7 +43,8 @@ a:not(.cdv-nolink) {
       transform: scale3d(0, 1, 1) !important;
     }
 
-    &:hover {
+    &:hover,
+    &.cdv-link-hover {
       &:after {
         transform: scale3d(1, 1, 1) !important;
       }

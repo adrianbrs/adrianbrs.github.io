@@ -3,15 +3,11 @@ import CdvMenuBtn from "../atoms/CdvMenuBtn.vue";
 import CdvBackdrop from "../atoms/CdvBackdrop.vue";
 import CdvNavLink from "../atoms/CdvNavLink.vue";
 import { useNavbarMenu } from "@/composables/useNavbarMenu";
-
-export interface CdvNavbarItem {
-  to: string;
-  text: string;
-}
+import type { CdvNavItem } from "@/composables/useNavItems";
 
 export interface CdvNavbarProps {
   inline?: boolean;
-  items: CdvNavbarItem[];
+  items: CdvNavItem[];
 }
 
 withDefaults(defineProps<CdvNavbarProps>(), {
@@ -32,10 +28,10 @@ const { isOpen, toggle } = useNavbarMenu();
       >
         <CdvNavLink
           v-for="(item, i) in items"
-          :to="item.to"
-          :key="item.to"
+          v-bind="item"
+          :key="item.label"
           :style="{ '--cdv-navlist-i': i }"
-          >{{ item.text }}</CdvNavLink
+          >{{ item.label }}</CdvNavLink
         >
       </TransitionGroup>
     </div>
@@ -51,10 +47,10 @@ const { isOpen, toggle } = useNavbarMenu();
         >
           <CdvNavLink
             v-for="(item, i) in items"
-            :to="item.to"
-            :key="item.to"
+            v-bind="item"
+            :key="item.label"
             :style="{ '--cdv-navlist-i': i }"
-            >{{ item.text }}</CdvNavLink
+            >{{ item.label }}</CdvNavLink
           >
         </TransitionGroup>
       </Transition>
@@ -87,13 +83,14 @@ const { isOpen, toggle } = useNavbarMenu();
   z-index: 999;
   left: 0;
   right: 0;
-  filter: drop-shadow(1px 1px var(--cdv-c-indigo))
+  filter: drop-shadow(1px 1px rgba(0, 0, 0, 0.4))
     drop-shadow(0 0 6px rgba(0, 0, 0, 0.4));
 
   &-title {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--cdv-c-white);
+    user-select: none;
   }
 
   &-items {
@@ -154,7 +151,7 @@ const { isOpen, toggle } = useNavbarMenu();
   }
 
   &-enter-from {
-    opacity: 0;
+    opacity: 0 !important;
   }
 
   &-enter-from {
