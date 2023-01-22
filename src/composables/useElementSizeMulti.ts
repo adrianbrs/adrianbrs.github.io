@@ -7,7 +7,8 @@ import {
   resolveUnref,
 } from "@vueuse/core";
 import { useResizeObserverMulti } from "./useResizeObserverMulti";
-import { computed, ref, watch } from "vue";
+import { ref, watch } from "vue";
+import { useIndexMap } from "./useIndexMap";
 
 export function useElementSizeMulti(
   targets: MaybeComputedRef<MaybeElement[]>,
@@ -17,6 +18,7 @@ export function useElementSizeMulti(
   },
   options: UseResizeObserverOptions = {}
 ) {
+  const { box = "content-box" } = options;
   const getInitialSize = (element: any, index: number) =>
     (Array.isArray(initialSize)
       ? initialSize[index]
@@ -24,12 +26,7 @@ export function useElementSizeMulti(
       ? initialSize.get(element)
       : initialSize) ?? { width: 0, height: 0 };
 
-  const indexMap = computed(
-    () =>
-      new Map(
-        resolveUnref(targets).map((t, i) => [unrefElement(t) as Element, i])
-      )
-  );
+  const indexMap = useIndexMap(targets, unrefElement);
   const result = ref<ElementSize[]>(
     resolveUnref(targets).map((t, i) => {
       const element = unrefElement(t);
@@ -46,10 +43,33 @@ export function useElementSizeMulti(
         const index = indexMap.value.get(element);
 
         if (index != null) {
-          const size = {
-            width: entry.contentRect.width,
-            height: entry.contentRect.height,
-          };
+          const boxSize =
+            box === "border-box"
+              ? entry.borderBoxSize
+              : box === "content-box"
+              ? entry.contentBoxSize
+              : entry.devicePixelContentBoxSize;
+
+          let size: ElementSize;
+
+          if (boxSize) {
+            size = {
+              width: boxSize.reduce(
+                (acc, { inlineSize }) => acc + inlineSize,
+                0
+              ),
+              height: boxSize.reduce(
+                (acc, { blockSize }) => acc + blockSize,
+                0
+              ),
+            };
+          } else {
+            size = {
+              width: entry.contentRect.width,
+              height: entry.contentRect.height,
+            };
+          }
+
           result.value[index] = size;
         }
       }

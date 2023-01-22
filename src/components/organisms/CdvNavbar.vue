@@ -1,9 +1,10 @@
 <script lang="ts" setup>
+import type { CdvNavItem } from "@/composables/useNavItems";
+import { useRouter } from "vue-router";
+import { useNavbarMenu } from "@/composables/useNavbarMenu";
 import CdvMenuBtn from "../atoms/CdvMenuBtn.vue";
 import CdvBackdrop from "../atoms/CdvBackdrop.vue";
 import CdvNavLink from "../atoms/CdvNavLink.vue";
-import { useNavbarMenu } from "@/composables/useNavbarMenu";
-import type { CdvNavItem } from "@/composables/useNavItems";
 
 export interface CdvNavbarProps {
   inline?: boolean;
@@ -14,7 +15,15 @@ withDefaults(defineProps<CdvNavbarProps>(), {
   inline: true,
 });
 
-const { isOpen, toggle } = useNavbarMenu();
+const { isOpen, toggle, close } = useNavbarMenu();
+
+const router = useRouter();
+
+router.afterEach(() => {
+  if (isOpen) {
+    close();
+  }
+});
 </script>
 
 <template>

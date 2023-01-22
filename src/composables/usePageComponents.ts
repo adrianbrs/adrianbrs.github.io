@@ -1,13 +1,28 @@
-import type { ComputedRef } from "vue";
 import { usePageRefs } from "./usePageRefs";
+import {
+  type MaybeComputedRef,
+  type VueInstance,
+  resolveUnref,
+  tryOnUnmounted,
+} from "@vueuse/core";
 import type { CdvRoutePage } from "./useRoutePages";
-import { useArrayMap } from "@vueuse/core";
+import { ref, watchEffect } from "vue";
 
-export function usePageComponents(
-  pages: CdvRoutePage[] | ComputedRef<CdvRoutePage[]>
-) {
+const components = ref<(VueInstance | undefined)[]>([]);
+
+export function usePageComponents(pages: MaybeComputedRef<CdvRoutePage[]>) {
   const { pageRefs } = usePageRefs();
-  return useArrayMap(pages, (page) => {
-    return pageRefs.value.find((ref) => ref.page.path === page.path)?.component;
+
+  watchEffect(() => {
+    components.value = resolveUnref(pages).map(
+      (page) =>
+        pageRefs.value.find((ref) => ref.page.path === page.path)?.component
+    );
   });
+
+  tryOnUnmounted(() => {
+    components.value = [];
+  });
+
+  return components;
 }

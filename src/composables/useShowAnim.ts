@@ -10,7 +10,7 @@ export function useShowAnim(
     | undefined,
   once = true
 ) {
-  const show = ref(true);
+  const show = ref(false);
   const scrollTarget = useScrollTarget();
   const isVisible = useElementVisibility(page, {
     scrollTarget,

@@ -1,15 +1,23 @@
 <script setup lang="ts">
 // import { loadFull } from "tsparticles";
 import { useScroll } from "@vueuse/core";
-import { computed, ref } from "vue";
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+  watchEffect,
+} from "vue";
 import { useScrollTarget } from "@/composables/useScrollTarget";
 import { useIsMobile } from "@/composables/useIsMobile";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useNavItems } from "@/composables/useNavItems";
 import { usePageRefs } from "@/composables/usePageRefs";
 import { useRoutePages } from "@/composables/useRoutePages";
-import { usePageComponents } from "@/composables/usePageComponents";
-import { useElementSizeMulti } from "@/composables/useElementSizeMulti";
+import { usePageSizes } from "@/composables/usePageSizes";
+import { useActivePage } from "@/composables/useActivePage";
 import CdvNavbar from "../organisms/CdvNavbar.vue";
 import CdvPageIndicator from "../molecules/CdvPageIndicator.vue";
 import CdvFooter from "../organisms/CdvFooter.vue";
@@ -18,19 +26,55 @@ import CdvNavLink from "../atoms/CdvNavLink.vue";
 // const particlesInit = async (engine: any) => {
 //   await loadFull(engine);
 // };
-
+const router = useRouter();
 const route = useRoute();
 
+const { pageRefs, updatePageRef } = usePageRefs();
 const navItems = useNavItems(route);
 const pages = useRoutePages(route);
-const { updatePageRef } = usePageRefs();
-
 const pagePaths = computed(() => new Set(pages.value.map((page) => page.path)));
-const pageComponents = usePageComponents(pages);
-const componentSizes = useElementSizeMulti(pageComponents);
-const pageHeights = computed(() =>
-  componentSizes.value.map(({ height }) => height)
+const pageSizes = usePageSizes(pages);
+const pageHeights = computed(() => pageSizes.value.map(({ height }) => height));
+const activePage = useActivePage(pages);
+const currentPage = computed(() =>
+  pageRefs.value.find((ref) => ref.page.path === route.path)
 );
+const scrollTarget = useScrollTarget();
+const pageReady = ref(false);
+
+function scrollToCurrentPage() {
+  const target = currentPage.value?.component.$el as HTMLElement;
+  if (target) {
+    const top = target.offsetTop;
+    scrollTarget.value?.scrollTo({
+      top,
+      behavior: "smooth",
+    });
+  }
+}
+
+watch(activePage, () => {
+  if (
+    activePage.value &&
+    route.path !== activePage.value.path &&
+    pageReady.value
+  ) {
+    router.push(activePage.value);
+  }
+});
+
+watch(currentPage, () => {
+  scrollToCurrentPage();
+});
+
+onMounted(() => {
+  scrollToCurrentPage();
+
+  // Allow scrolling to the current page on first load
+  nextTick(() => {
+    pageReady.value = true;
+  });
+});
 
 const container = useScrollTarget();
 const { y: scrollTop } = useScroll(container);
@@ -60,9 +104,8 @@ const inlineNavbar = computed(() => !isMobile.value && !isScrollingDown.value);
             v-for="page in pages"
             :key="page.path"
             :is="page.component!"
-            :id="page.name ?? page.path"
+            :id="page.path"
             :ref="(component: any) => updatePageRef(page, component)"
-            :test="route.path"
           ></component>
         </template>
         <component v-else :is="Component" />
@@ -102,7 +145,7 @@ const inlineNavbar = computed(() => !isMobile.value && !isScrollingDown.value);
     max-height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    // scroll-snap-type: y mandatory;
+    // scroll-snap-type: y proximity;
     // scroll-snap-stop: always !important;
     scroll-behavior: smooth;
 
