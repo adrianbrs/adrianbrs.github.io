@@ -6,6 +6,7 @@ import { useI18n } from "vue-i18n";
 import CdvMenuBtn from "../atoms/CdvMenuBtn.vue";
 import CdvBackdrop from "../atoms/CdvBackdrop.vue";
 import CdvNavLink from "../atoms/CdvNavLink.vue";
+import CdvLocaleSwitcher from "../molecules/CdvLocaleSwitcher.vue";
 
 export interface CdvNavbarProps {
   inline?: boolean;
@@ -46,6 +47,10 @@ router.afterEach(() => {
           >{{ item.label }}</CdvNavLink
         >
       </TransitionGroup>
+
+      <Transition name="cdv-fade" appear>
+        <CdvLocaleSwitcher class="ml-[16px]" />
+      </Transition>
     </div>
 
     <div v-else class="cdv-navbar cdv-navbar--fixed">
@@ -64,6 +69,8 @@ router.afterEach(() => {
             :style="{ '--cdv-navlist-i': i }"
             >{{ item.label }}</CdvNavLink
           >
+
+          <CdvLocaleSwitcher key="switcher" />
         </TransitionGroup>
       </Transition>
 
@@ -71,7 +78,7 @@ router.afterEach(() => {
         <slot></slot>
       </div>
 
-      <a class="cdv-nolink cdv-navbar-btn" v-if="!inline">
+      <a class="cdv-nolink cdv-navbar-btn">
         <CdvMenuBtn @click="toggle" :close="isOpen"></CdvMenuBtn>
       </a>
     </div>
@@ -146,6 +153,10 @@ router.afterEach(() => {
           font-size: 1.8rem;
         }
       }
+    }
+
+    .cdv-locale-switcher {
+      margin-top: 48px;
     }
   }
 }

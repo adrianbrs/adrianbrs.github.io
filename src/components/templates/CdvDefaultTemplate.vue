@@ -10,17 +10,20 @@ import { usePageRefs } from "@/composables/usePageRefs";
 import { useRoutePages } from "@/composables/useRoutePages";
 import { usePageSizes } from "@/composables/usePageSizes";
 import { useActivePage } from "@/composables/useActivePage";
+import { useI18n } from "vue-i18n";
 import CdvNavbar from "../organisms/CdvNavbar.vue";
 import CdvPageIndicator from "../molecules/CdvPageIndicator.vue";
 import CdvFooter from "../organisms/CdvFooter.vue";
 import CdvNavLink from "../atoms/CdvNavLink.vue";
-import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
 const particlesInit = async (engine: any) => {
   await loadFull(engine);
 };
+
+const scrollTarget = useScrollTarget();
+const { y: scrollTop, isScrolling } = useScroll(scrollTarget);
 
 const router = useRouter();
 const route = useRoute();
@@ -35,7 +38,6 @@ const activePage = useActivePage(pages);
 const currentPage = computed(() =>
   pageRefs.value.find((ref) => ref.page.path === route.path)
 );
-const scrollTarget = useScrollTarget();
 const pageReady = ref(false);
 
 useTitle(
@@ -48,7 +50,7 @@ useTitle(
 
 function scrollToCurrentPage() {
   const target = currentPage.value?.component.$el as HTMLElement;
-  if (target) {
+  if (target && !isScrolling.value) {
     const top = target.offsetTop;
     scrollTarget.value?.scrollTo({
       top,
@@ -80,9 +82,6 @@ onMounted(() => {
   });
 });
 
-const container = useScrollTarget();
-const { y: scrollTop } = useScroll(container);
-
 const isMobile = useIsMobile();
 const scrollTreshold = ref(50);
 const isScrollingDown = computed(() => scrollTop.value > scrollTreshold.value);
@@ -101,7 +100,7 @@ const inlineNavbar = computed(() => !isMobile.value && !isScrollingDown.value);
       {{ t("general.name") }}
     </CdvNavbar>
 
-    <main class="cdv-content" ref="container">
+    <main class="cdv-content" ref="scrollTarget">
       <RouterView v-slot="{ Component, route }">
         <template v-if="pagePaths.has(route.path)">
           <component

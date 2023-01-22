@@ -1,7 +1,13 @@
 {
   "locale": {
-    "code": "pt_BR",
-    "name": "Português (Brasil)"
+    "en": {
+      "code": "en",
+      "name": "English"
+    },
+    "pt_BR": {
+      "code": "pt_BR",
+      "name": "Português (Brasil)"
+    }
   },
   "head": {
     "title": "@:general.name — @:general.title",

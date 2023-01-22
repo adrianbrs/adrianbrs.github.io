@@ -5,7 +5,7 @@ import { setI18nLocale } from "./i18n";
 import type { I18n } from "vue-i18n";
 
 const i18n = inject<I18n>("i18n")!;
-const locale = useLocale();
+const { locale } = useLocale();
 
 watch(
   locale,

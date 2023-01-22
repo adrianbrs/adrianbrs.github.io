@@ -51,6 +51,7 @@ const linkProps = computed(() => {
   font-weight: 600;
   color: var(--cdv-c-white-soft);
   opacity: 0.7;
+  white-space: nowrap;
 
   &.cdv-link-active {
     opacity: 1;
