@@ -1,15 +1,7 @@
 <script setup lang="ts">
-// import { loadFull } from "tsparticles";
+import { loadFull } from "tsparticles";
 import { useScroll } from "@vueuse/core";
-import {
-  computed,
-  nextTick,
-  onMounted,
-  onUnmounted,
-  ref,
-  watch,
-  watchEffect,
-} from "vue";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { useScrollTarget } from "@/composables/useScrollTarget";
 import { useIsMobile } from "@/composables/useIsMobile";
 import { useRoute, useRouter } from "vue-router";
@@ -23,9 +15,10 @@ import CdvPageIndicator from "../molecules/CdvPageIndicator.vue";
 import CdvFooter from "../organisms/CdvFooter.vue";
 import CdvNavLink from "../atoms/CdvNavLink.vue";
 
-// const particlesInit = async (engine: any) => {
-//   await loadFull(engine);
-// };
+const particlesInit = async (engine: any) => {
+  await loadFull(engine);
+};
+
 const router = useRouter();
 const route = useRoute();
 
@@ -123,12 +116,12 @@ const inlineNavbar = computed(() => !isMobile.value && !isScrollingDown.value);
       </CdvFooter>
     </main>
 
-    <!-- <Particles
+    <Particles
       class="fixed z-[-1]"
       id="app-particles"
       url="/particles.json"
       :particlesInit="particlesInit"
-    /> -->
+    />
   </div>
 </template>
 
@@ -145,8 +138,6 @@ const inlineNavbar = computed(() => !isMobile.value && !isScrollingDown.value);
     max-height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    // scroll-snap-type: y proximity;
-    // scroll-snap-stop: always !important;
     scroll-behavior: smooth;
 
     > .cdv-page {
