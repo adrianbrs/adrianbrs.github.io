@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { loadFull } from "tsparticles";
-import { useScroll } from "@vueuse/core";
+import { useScroll, useTitle } from "@vueuse/core";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { useScrollTarget } from "@/composables/useScrollTarget";
 import { useIsMobile } from "@/composables/useIsMobile";
@@ -14,6 +14,9 @@ import CdvNavbar from "../organisms/CdvNavbar.vue";
 import CdvPageIndicator from "../molecules/CdvPageIndicator.vue";
 import CdvFooter from "../organisms/CdvFooter.vue";
 import CdvNavLink from "../atoms/CdvNavLink.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const particlesInit = async (engine: any) => {
   await loadFull(engine);
@@ -34,6 +37,14 @@ const currentPage = computed(() =>
 );
 const scrollTarget = useScrollTarget();
 const pageReady = ref(false);
+
+useTitle(
+  computed(() => {
+    const page = currentPage.value;
+    const pageName = page ? t(`pages.${page.page.name}.title`) : null;
+    return `${pageName ? pageName + t("head.page_sep") : ""}${t("head.title")}`;
+  })
+);
 
 function scrollToCurrentPage() {
   const target = currentPage.value?.component.$el as HTMLElement;
@@ -81,13 +92,13 @@ const inlineNavbar = computed(() => !isMobile.value && !isScrollingDown.value);
 <template>
   <div class="cdv-app">
     <CdvPageIndicator
-      :items="navItems.map((item) => item.label)"
+      :items="navItems"
       :heights="pageHeights"
       :scrollTop="scrollTop"
     ></CdvPageIndicator>
 
     <CdvNavbar :inline="inlineNavbar" :items="navItems">
-      Adrian Cerbaro
+      {{ t("general.name") }}
     </CdvNavbar>
 
     <main class="cdv-content" ref="container">
@@ -106,12 +117,9 @@ const inlineNavbar = computed(() => !isMobile.value && !isScrollingDown.value);
 
       <CdvFooter>
         <template #nav>
-          <CdvNavLink
-            v-for="item in navItems"
-            v-bind="item"
-            :key="item.label"
-            >{{ item.label }}</CdvNavLink
-          >
+          <CdvNavLink v-for="item in navItems" v-bind="item" :key="item.name">{{
+            item.label
+          }}</CdvNavLink>
         </template>
       </CdvFooter>
     </main>

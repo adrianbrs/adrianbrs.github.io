@@ -1,0 +1,40 @@
+{
+  "locale": {
+    "code": "pt_BR",
+    "name": "Português (Brasil)"
+  },
+  "head": {
+    "title": "@:general.name — @:general.title",
+    "page_sep": " {'|'} "
+  },
+  "general": {
+    "name": "Adrian Cerbaro",
+    "title": "Desenvolvedor de Software Full-Stack"
+  },
+  "pages": {
+    "home": {
+      "title": "Bem-vindo",
+      "label": "Bem-vindo"
+    },
+    "about": {
+      "title": "Sobre",
+      "label": "Sobre"
+    },
+    "stack": {
+      "title": "Stack",
+      "label": "Stack"
+    },
+    "projects": {
+      "title": "Projetos",
+      "label": "Projetos"
+    },
+    "contact": {
+      "title": "Contato",
+      "label": "Contato"
+    }
+  },
+  "contact": {
+    "email": "contato{'@'}cerbaro.dev",
+    "phone": "(54) 99966-9018"
+  }
+}

@@ -2,15 +2,11 @@
 import { useShowAnim } from "@/composables/useShowAnim.js";
 import { ref } from "vue";
 import { useProjects } from "@/composables/useProjects";
+import { useI18n } from "vue-i18n";
 import CdvExternalLink from "@/components/atoms/CdvExternalLink.vue";
 import CdvCard from "@/components/molecules/CdvCard.vue";
 
-export interface CdvProjectOptions {
-  title: string;
-  image: string;
-  description: string;
-  href?: string;
-}
+const { t } = useI18n();
 
 const page = ref<HTMLDivElement>();
 const show = useShowAnim(page);
@@ -47,7 +43,9 @@ const projects = useProjects();
           <p v-html="project.description"></p>
 
           <template #actions>
-            <CdvExternalLink :href="project.href">Visit now</CdvExternalLink>
+            <CdvExternalLink :href="project.href">{{
+              t("open_project_label")
+            }}</CdvExternalLink>
           </template>
         </CdvCard>
       </TransitionGroup>
@@ -69,3 +67,10 @@ const projects = useProjects();
   }
 }
 </style>
+
+<i18n lang="yaml">
+en:
+  open_project_label: Open
+pt_BR:
+  open_project_label: Abrir
+</i18n>

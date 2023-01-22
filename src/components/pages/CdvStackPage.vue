@@ -5,10 +5,13 @@ import CdvStackList, {
 import { ref } from "vue";
 import { useShowAnim } from "@/composables/useShowAnim.js";
 import techIcons from "@/lib/tech-icons";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const stack: CdvStackListProps[] = [
   {
-    title: "Frontend",
+    title: "frontend",
     items: [
       { ...techIcons.html5Icon, percentage: 98 },
       { ...techIcons.css3Icon, percentage: 98 },
@@ -21,7 +24,7 @@ const stack: CdvStackListProps[] = [
     ],
   },
   {
-    title: "Backend",
+    title: "backend",
     items: [
       { ...techIcons.nodejsIcon, percentage: 98 },
       { ...techIcons.nestjsIcon, percentage: 98 },
@@ -34,14 +37,14 @@ const stack: CdvStackListProps[] = [
     ],
   },
   {
-    title: "Database",
+    title: "database",
     items: [
       { ...techIcons.postgreSqlIcon, percentage: 98 },
       { ...techIcons.mongodbIcon, percentage: 98 },
     ],
   },
   {
-    title: "Mobile",
+    title: "mobile",
     items: [
       { ...techIcons.reactNativeIcon, percentage: 98 },
       { ...techIcons.flutterIcon, percentage: 98 },
@@ -59,7 +62,7 @@ const show = useShowAnim(page);
       <CdvStackList
         v-for="tec in stack"
         :key="tec.title"
-        :title="tec.title"
+        :title="t(tec.title)"
         :items="tec.items"
         class="cdv-scroll-item"
       ></CdvStackList>
@@ -68,3 +71,16 @@ const show = useShowAnim(page);
     <div class="cdv-page-ref" ref="page"></div>
   </div>
 </template>
+
+<i18n lang="yaml">
+en:
+  frontend: Frontend
+  backend: Backend
+  database: Database
+  mobile: Mobile
+pt_BR:
+  frontend: Frontend
+  backend: Backend
+  database: Banco de Dados
+  mobile: Mobile
+</i18n>

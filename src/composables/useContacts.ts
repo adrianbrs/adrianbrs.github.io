@@ -1,5 +1,6 @@
 import { mdiEmailOutline, mdiPhoneOutline } from "@mdi/js";
-import { reactive } from "vue";
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 
 export interface CdvContactItem {
   icon: string;
@@ -8,19 +9,24 @@ export interface CdvContactItem {
   title?: string;
 }
 
-const contacts = reactive<CdvContactItem[]>([
-  {
-    icon: mdiEmailOutline,
-    label: "contato@cerbaro.dev",
-    href: "mailto:contato@cerbaro.dev",
-  },
-  {
-    icon: mdiPhoneOutline,
-    label: "+555 (54) 9 9966-9018",
-    href: "tel:+55554999669018",
-  },
-]);
-
 export function useContacts() {
-  return contacts;
+  const { t } = useI18n({ useScope: "global" });
+
+  return computed(() => {
+    const email = t("contact.email");
+    const phone = t("contact.phone");
+
+    return [
+      {
+        icon: mdiEmailOutline,
+        label: email,
+        href: `mailto:${email}`,
+      },
+      {
+        icon: mdiPhoneOutline,
+        label: phone,
+        href: `tel:${phone}`,
+      },
+    ];
+  });
 }

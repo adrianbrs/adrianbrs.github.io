@@ -2,6 +2,7 @@
 import type { CdvNavItem } from "@/composables/useNavItems";
 import { useRouter } from "vue-router";
 import { useNavbarMenu } from "@/composables/useNavbarMenu";
+import { useI18n } from "vue-i18n";
 import CdvMenuBtn from "../atoms/CdvMenuBtn.vue";
 import CdvBackdrop from "../atoms/CdvBackdrop.vue";
 import CdvNavLink from "../atoms/CdvNavLink.vue";
@@ -10,6 +11,8 @@ export interface CdvNavbarProps {
   inline?: boolean;
   items: CdvNavItem[];
 }
+
+const { t } = useI18n();
 
 withDefaults(defineProps<CdvNavbarProps>(), {
   inline: true,
@@ -38,7 +41,7 @@ router.afterEach(() => {
         <CdvNavLink
           v-for="(item, i) in items"
           v-bind="item"
-          :key="item.label"
+          :key="item.name"
           :style="{ '--cdv-navlist-i': i }"
           >{{ item.label }}</CdvNavLink
         >
@@ -57,7 +60,7 @@ router.afterEach(() => {
           <CdvNavLink
             v-for="(item, i) in items"
             v-bind="item"
-            :key="item.label"
+            :key="item.name"
             :style="{ '--cdv-navlist-i': i }"
             >{{ item.label }}</CdvNavLink
           >

@@ -3,8 +3,8 @@ import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from "vue-router";
 import { useRouteChildren } from "./useRouteChildren";
 
 export type CdvRoutePage = RouteRecordRaw & {
+  name: string;
   meta: {
-    label: string;
     hidden: false;
   };
 };
@@ -13,8 +13,7 @@ export function useRoutePages(route: RouteLocationNormalizedLoaded) {
   const children = useRouteChildren(route);
   return computed(() =>
     children.value.filter(
-      (route): route is CdvRoutePage =>
-        !!(route.meta?.label && !route.meta?.hidden)
+      (route): route is CdvRoutePage => !!(route.name && !route.meta?.hidden)
     )
   );
 }

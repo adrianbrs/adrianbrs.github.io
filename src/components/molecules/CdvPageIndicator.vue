@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { mdiChevronRight } from "@mdi/js";
-import { computed, unref, type Ref, watchEffect, toRefs } from "vue";
-import CdvIcon from "@/components/atoms/CdvIcon.vue";
+import { computed, unref, type Ref, toRefs } from "vue";
+import type { CdvNavItem } from "@/composables/useNavItems";
 import { useScrollTarget } from "@/composables/useScrollTarget";
 import { useScroll } from "@vueuse/core";
+import CdvIcon from "@/components/atoms/CdvIcon.vue";
 
 export interface CdvPageIndicatorProps {
-  items: string[];
+  items: CdvNavItem[];
   heights: (number | Ref<number>)[];
 }
 
@@ -47,7 +48,7 @@ const position = computed(() => {
           transform: `translate3d(0, ${-position}px, 0)`,
         }"
       >
-        <span v-for="name in items" :key="name">{{ name }}</span>
+        <span v-for="item in items" :key="item.name">{{ item.label }}</span>
       </div>
     </div>
   </div>

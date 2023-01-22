@@ -1,16 +1,21 @@
-import { useNavigatorLanguage } from "@vueuse/core";
-import { ref } from "vue";
+import { parseLocale } from "@/i18n";
+import { useLocalStorage, useNavigatorLanguage } from "@vueuse/core";
+import { computed } from "vue";
 
-const selectedLocale = ref<string>("");
+const selectedLocale = useLocalStorage<string | null>("locale", null);
 
 export function useLocale() {
-  const setLocale = (locale?: string | null) =>
-    (selectedLocale.value = (locale ?? "en").split("-")[0]);
+  const { language } = useNavigatorLanguage();
+  const locale = computed(() =>
+    parseLocale(selectedLocale.value || language.value)
+  );
 
-  if (!selectedLocale.value) {
-    const { language } = useNavigatorLanguage();
-    setLocale(language.value);
-  }
-
-  return { locale: selectedLocale, setLocale };
+  return computed({
+    get() {
+      return locale.value;
+    },
+    set(locale: string | null) {
+      selectedLocale.value = locale;
+    },
+  });
 }

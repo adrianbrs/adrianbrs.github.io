@@ -21,47 +21,35 @@ const router = createRouter({
         {
           path: "/",
           component: CdvHomePage,
-          name: "Home",
-          meta: {
-            label: "Home",
-          },
+          name: "home",
         },
         {
           path: "/about",
           component: CdvAboutPage,
-          name: "About",
-          meta: {
-            label: "About",
-          },
+          name: "about",
         },
         {
           path: "/stack",
           component: CdvStackPage,
-          name: "Stack",
-          meta: {
-            label: "Stack",
-          },
+          name: "stack",
         },
         {
           path: "/projects",
           component: CdvProjectsPage,
-          name: "Projects",
-          meta: {
-            label: "Projects",
-          },
+          name: "projects",
         },
         {
           path: "/contact",
           component: CdvContactPage,
-          name: "Contact",
-          meta: {
-            label: "Contact",
-          },
+          name: "contact",
         },
         {
           path: "/:pathMatch(.*)*",
           name: "NotFound",
           component: CdvNotFoundPage,
+          meta: {
+            hidden: true,
+          },
         },
       ],
     },
@@ -72,7 +60,7 @@ export default router;
 
 declare module "vue-router" {
   interface RouteMeta {
-    label?: string;
     hidden?: boolean;
+    template?: string;
   }
 }

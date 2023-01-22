@@ -48,14 +48,14 @@ const rightIcons = [
         appear
       >
         <div class="cdv-home-heading">
-          <h1>Adrian Cerbaro</h1>
+          <h1>{{ $t("general.name") }}</h1>
 
           <Transition
             class="!transition-delay-[2s] !transition-duration-[0.6s]"
             name="cdv-fade-in-up"
             appear
           >
-            <h2>Full-Stack Software Engineer</h2>
+            <h2>{{ $t("general.title") }}</h2>
           </Transition>
         </div>
       </Transition>
