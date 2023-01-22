@@ -115,6 +115,7 @@ const onSubmit = (values: any) => {
   &-heading {
     text-align: center;
     max-width: 480px;
+    z-index: 2;
 
     > h1 {
       font-size: 3rem;
@@ -152,6 +153,7 @@ const onSubmit = (values: any) => {
   &-artwork {
     max-height: 100%;
     overflow: hidden;
+    z-index: 1;
     filter: drop-shadow(2px 4px 4px rgba(#0c1118, 0.8))
       drop-shadow(12px 16px 20px rgba(#0c1118, 0.4));
 
@@ -218,7 +220,6 @@ const onSubmit = (values: any) => {
     &-artwork {
       height: 100%;
       position: absolute;
-      z-index: -1;
       right: var(--app-spacing);
       overflow: visible;
 
