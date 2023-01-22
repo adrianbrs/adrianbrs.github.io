@@ -124,10 +124,13 @@ const errHeight = computed(() => errMessageRef?.value?.offsetHeight ?? 0);
   transition: all 0.2s cubic-bezier(0.76, 0, 0.24, 1);
 
   &--focused {
-    border-bottom-color: var(--cdv-c-primary);
-
-    .cdv-input-label {
-      color: var(--cdv-c-primary);
+    .cdv-input {
+      &-wrapper {
+        border-bottom-color: var(--cdv-c-primary);
+      }
+      &-label {
+        color: var(--cdv-c-primary);
+      }
     }
   }
 
