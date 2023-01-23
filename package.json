@@ -2,6 +2,7 @@
   "name": "cerbaro.dev",
   "version": "0.0.0",
   "private": true,
+  "packageManager": "pnpm@7.19.0",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
