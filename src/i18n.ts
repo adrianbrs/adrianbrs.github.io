@@ -2,7 +2,6 @@ import { nextTick, type WritableComputedRef } from "vue";
 import { createI18n, type I18nOptions, type I18n } from "vue-i18n";
 import { setLocale as setVeeValidateLocale } from "@vee-validate/i18n";
 import { loadLocaleMessages as loadVeeValidateLocale } from "./vee-validate";
-import en from "./locales/en.json";
 
 export const SUPPORT_LOCALES = ["en", "pt_BR"] as const;
 export const FALLBACK_LOCALE = "en" as const;
@@ -64,7 +63,7 @@ export async function setI18nLocale(i18n: I18n, rawLocale: string) {
 
 export async function loadI18nLocale(i18n: I18n, locale: CdvLocale) {
   if (!i18n.global.availableLocales.includes(locale)) {
-    const messages = await import(`./locales/${locale}.json`);
+    const messages = await import(`./locales/${locale}.yaml`);
     i18n.global.setLocaleMessage(locale, messages.default);
   }
 
@@ -78,11 +77,20 @@ function setupI18n(options: CdvI18nOptions) {
   return i18n;
 }
 
+const messages = Object.fromEntries(
+  Object.entries(
+    import.meta.glob<{ default: any }>("../locales/*.y(a)?ml", {
+      eager: true,
+    })
+  ).map(([key, value]) => {
+    const yaml = key.endsWith(".yaml");
+    return [key.slice(14, yaml ? -5 : -4), value.default];
+  })
+);
+
 export const i18n = setupI18n({
   locale: "en",
   fallbackLocale: "en",
   globalInjection: true,
-  messages: {
-    en,
-  },
+  messages,
 });
