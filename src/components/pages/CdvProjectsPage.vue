@@ -57,9 +57,14 @@ const projects = useProjects();
 
 <style lang="scss">
 .cdv-projects {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+
   > .cdv-h-scroll {
     scroll-snap-type: x proximity;
     scroll-padding: 10%;
+    padding-left: var(--app-spacing);
+    padding-right: var(--app-spacing);
 
     > .cdv-scroll-item {
       scroll-snap-align: start;

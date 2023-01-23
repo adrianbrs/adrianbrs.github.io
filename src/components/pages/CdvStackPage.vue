@@ -72,6 +72,18 @@ const show = useShowAnim(page);
   </div>
 </template>
 
+<style lang="scss">
+.cdv-stack {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+
+  > .cdv-h-scroll {
+    padding-left: var(--app-spacing);
+    padding-right: var(--app-spacing);
+  }
+}
+</style>
+
 <i18n lang="yaml">
 en:
   frontend: Frontend
