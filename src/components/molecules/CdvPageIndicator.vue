@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { mdiChevronRight } from "@mdi/js";
-import { computed, unref, type Ref, toRefs } from "vue";
+import { computed, unref, type Ref, toRefs, ref, watchEffect } from "vue";
 import type { CdvNavItem } from "@/composables/useNavItems";
 import { useScrollTarget } from "@/composables/useScrollTarget";
 import { useScroll } from "@vueuse/core";
@@ -23,7 +23,9 @@ const distances = computed(() =>
   }, [] as number[])
 );
 
-const position = computed(() => {
+const position = ref(0);
+
+watchEffect(() => {
   const index = distances.value.findIndex(
     (d, i, arr) => scrollTop.value < d || i === arr.length - 1
   );
@@ -31,10 +33,15 @@ const position = computed(() => {
   const distance = distances.value[index];
   const relativeDistance = unref(height) - (distance - scrollTop.value);
   const percentage = relativeDistance / unref(height);
-  return Math.min(
+  // const percentage = 0;
+  const newPosition = Math.min(
     index * 64 + percentage * 64,
     (propsRef.items.value.length - 1) * 64
   );
+
+  if (newPosition !== position.value) {
+    position.value = newPosition;
+  }
 });
 </script>
 
@@ -101,6 +108,7 @@ const position = computed(() => {
   &-items {
     display: flex;
     flex-direction: column;
+    transition: transform 0.1s ease;
 
     > span {
       display: flex;

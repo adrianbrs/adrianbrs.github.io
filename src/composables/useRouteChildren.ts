@@ -1,9 +1,8 @@
 import { watch, type Ref, shallowRef } from "vue";
-import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from "vue-router";
+import { type RouteRecordRaw, useRoute } from "vue-router";
 
-export function useRouteChildren(
-  route: RouteLocationNormalizedLoaded
-): Ref<RouteRecordRaw[]> {
+export function useRouteChildren(): Ref<RouteRecordRaw[]> {
+  const route = useRoute();
   const children = shallowRef<RouteRecordRaw[]>([]);
 
   watch(

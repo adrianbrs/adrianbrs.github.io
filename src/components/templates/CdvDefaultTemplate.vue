@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { loadFull } from "tsparticles";
-import { useScroll, useTitle } from "@vueuse/core";
+// import { loadFull } from "tsparticles";
+import { useElementSize, useScroll, useTitle } from "@vueuse/core";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { useScrollTarget } from "@/composables/useScrollTarget";
 import { useIsMobile } from "@/composables/useIsMobile";
@@ -18,27 +18,30 @@ import CdvNavLink from "../atoms/CdvNavLink.vue";
 
 const { t } = useI18n();
 
-const particlesInit = async (engine: any) => {
-  await loadFull(engine);
-};
+// const particlesInit = async (engine: any) => {
+//   await loadFull(engine);
+// };
 
 const scrollTarget = useScrollTarget();
 const { y: scrollTop, isScrolling } = useScroll(scrollTarget);
+const { height: scrollHeight } = useElementSize(scrollTarget);
+const scrollBottom = computed(() => scrollTop.value + scrollHeight.value);
 
 const router = useRouter();
 const route = useRoute();
 
 const { pageRefs, updatePageRef } = usePageRefs();
-const navItems = useNavItems(route);
-const pages = useRoutePages(route);
+const navItems = useNavItems();
+const pages = useRoutePages();
 const pagePaths = computed(() => new Set(pages.value.map((page) => page.path)));
-const pageSizes = usePageSizes(pages);
+const pageSizes = usePageSizes();
 const pageHeights = computed(() => pageSizes.value.map(({ height }) => height));
-const activePage = useActivePage(pages);
+const { activePage } = useActivePage();
 const currentPage = computed(() =>
-  pageRefs.value.find((ref) => ref.page.path === route.path)
+  pageRefs.value.find((ref) => ref?.page.path === route.path)
 );
 const pageReady = ref(false);
+const navigating = ref(false);
 
 useTitle(
   computed(() => {
@@ -48,10 +51,40 @@ useTitle(
   })
 );
 
-function scrollToCurrentPage() {
+function getScrollAlign(threshold = 100) {
   const target = currentPage.value?.component.$el as HTMLElement;
   if (target && !isScrolling.value) {
-    const top = target.offsetTop;
+    let top = target.offsetTop;
+    let bottom = top + target.offsetHeight;
+
+    if (scrollTop.value < top + threshold) {
+      return "top";
+    } else if (scrollBottom.value > bottom - threshold) {
+      return "bottom";
+    }
+  }
+  return "none";
+}
+
+function scrollToCurrentPage(
+  align: "top" | "bottom" | "auto" | "none" = "auto",
+  threshold = -151
+) {
+  const target = currentPage.value?.component.$el as HTMLElement;
+  if (target && !isScrolling.value) {
+    let top = target.offsetTop;
+    const height = target.offsetHeight;
+
+    if (align === "auto") {
+      align = getScrollAlign(threshold);
+    }
+
+    if (align === "bottom") {
+      top += height - scrollHeight.value;
+    } else if (align === "none") {
+      return;
+    }
+
     scrollTarget.value?.scrollTo({
       top,
       behavior: "smooth",
@@ -59,22 +92,28 @@ function scrollToCurrentPage() {
   }
 }
 
-watch(activePage, () => {
+watch(activePage, async () => {
   if (
     activePage.value &&
     route.path !== activePage.value.path &&
     pageReady.value
   ) {
-    router.push(activePage.value);
+    navigating.value = true;
+    await router.push(activePage.value);
+    navigating.value = false;
+
+    scrollToCurrentPage();
   }
 });
 
 watch(currentPage, () => {
-  scrollToCurrentPage();
+  if (!navigating.value) {
+    scrollToCurrentPage();
+  }
 });
 
 onMounted(() => {
-  scrollToCurrentPage();
+  scrollToCurrentPage("top");
 
   // Allow scrolling to the current page on first load
   nextTick(() => {
@@ -123,12 +162,12 @@ const inlineNavbar = computed(() => !isMobile.value && !isScrollingDown.value);
       </CdvFooter>
     </main>
 
-    <Particles
+    <!-- <Particles
       class="fixed z-[-1]"
       id="app-particles"
       url="/particles.json"
       :particlesInit="particlesInit"
-    />
+    /> -->
   </div>
 </template>
 
@@ -148,7 +187,7 @@ const inlineNavbar = computed(() => !isMobile.value && !isScrollingDown.value);
     scroll-behavior: smooth;
 
     > .cdv-page {
-      scroll-snap-align: start;
+      scroll-snap-align: none;
       max-width: var(--app-max-width);
       min-width: min(100%, var(--app-max-width));
       margin: 0 auto;

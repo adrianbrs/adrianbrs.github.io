@@ -1,5 +1,5 @@
 import { computed } from "vue";
-import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from "vue-router";
+import type { RouteRecordRaw } from "vue-router";
 import { useRouteChildren } from "./useRouteChildren";
 
 export type CdvRoutePage = RouteRecordRaw & {
@@ -9,8 +9,8 @@ export type CdvRoutePage = RouteRecordRaw & {
   };
 };
 
-export function useRoutePages(route: RouteLocationNormalizedLoaded) {
-  const children = useRouteChildren(route);
+export function useRoutePages() {
+  const children = useRouteChildren();
   return computed(() =>
     children.value.filter(
       (route): route is CdvRoutePage => !!(route.name && !route.meta?.hidden)

@@ -1,5 +1,4 @@
 import { computed } from "vue";
-import type { RouteLocationNormalizedLoaded } from "vue-router";
 import { useRoutePages } from "./useRoutePages";
 import { useI18n } from "vue-i18n";
 
@@ -19,8 +18,8 @@ export interface CdvNavItemHref extends _CdvNavItemBase {
 
 export type CdvNavItem = CdvNavItemTo | CdvNavItemHref;
 
-export function useNavItems(route: RouteLocationNormalizedLoaded) {
-  const pages = useRoutePages(route);
+export function useNavItems() {
+  const pages = useRoutePages();
   const { t } = useI18n();
   const navItems = computed((): CdvNavItem[] => {
     return pages.value.map((page) => ({
