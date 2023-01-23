@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import CdvNotFoundPage from "@/components/pages/CdvNotFoundPage.vue";
 import CdvDefaultTemplate from "@/components/templates/CdvDefaultTemplate.vue";
 import CdvHomePage from "@/components/pages/CdvHomePage.vue";
@@ -8,7 +8,7 @@ import CdvProjectsPage from "@/components/pages/CdvProjectsPage.vue";
 import CdvContactPage from "@/components/pages/CdvContactPage.vue";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/test",
