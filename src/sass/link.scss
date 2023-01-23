@@ -6,6 +6,8 @@ a:not(.cdv-nolink),
   text-decoration: none;
   position: relative;
   display: inline-flex;
+  border-radius: 0.25rem;
+  outline-offset: 4px;
 
   &:after {
     content: "";
@@ -29,6 +31,7 @@ a:not(.cdv-nolink),
 a:not(.cdv-nolink) {
   &:not([disabled]):not(.cdv-disabled) {
     &:hover,
+    &:focus,
     &.cdv-link-hover {
       &:after {
         transform: scale3d(0, 1, 1);
@@ -44,6 +47,7 @@ a:not(.cdv-nolink) {
     }
 
     &:hover,
+    &:focus,
     &.cdv-link-hover {
       &:after {
         transform: scale3d(1, 1, 1) !important;

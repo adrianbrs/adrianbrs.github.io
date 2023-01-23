@@ -9,11 +9,15 @@ withDefaults(defineProps<CdvMenuBtnProps>(), {
 </script>
 
 <template>
-  <div class="cdv-menu-btn" :class="{ 'cdv-menu-btn--close': close }">
+  <button
+    class="cdv-menu-btn"
+    :class="{ 'cdv-menu-btn--close': close }"
+    tabindex="0"
+  >
     <div class="cdv-menu-btn-line"></div>
     <div class="cdv-menu-btn-line"></div>
     <div class="cdv-menu-btn-line"></div>
-  </div>
+  </button>
 </template>
 
 <style scoped lang="scss">
@@ -28,6 +32,8 @@ withDefaults(defineProps<CdvMenuBtnProps>(), {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   opacity: 0.8;
+  border-radius: 50%;
+  overflow: visible;
 
   &-line {
     width: 100%;
@@ -37,22 +43,28 @@ withDefaults(defineProps<CdvMenuBtnProps>(), {
     width: 32px;
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     opacity: 1;
   }
 
-  &:not(.cdv-menu-btn--close):hover {
-    .cdv-menu-btn-line {
-      &:nth-child(1) {
-        transform: translate3d(0, 1px, 0);
-      }
+  &:not(.cdv-menu-btn--close) {
+    outline-offset: 4px;
 
-      &:nth-child(2) {
-        transform: scale3d(1.2, 1.2, 1);
-      }
+    &:hover,
+    &:focus {
+      .cdv-menu-btn-line {
+        &:nth-child(1) {
+          transform: translate3d(0, 1px, 0);
+        }
 
-      &:nth-child(3) {
-        transform: translate3d(0, -1px, 0);
+        &:nth-child(2) {
+          transform: scale3d(1.2, 1.2, 1);
+        }
+
+        &:nth-child(3) {
+          transform: translate3d(0, -1px, 0);
+        }
       }
     }
   }
@@ -77,8 +89,9 @@ withDefaults(defineProps<CdvMenuBtnProps>(), {
       }
     }
 
-    &:hover {
-      transform: scale3d(1.2, 1.2, 1);
+    &:hover,
+    &:focus {
+      transform: scale3d(1.25, 1.25, 1);
     }
   }
 }

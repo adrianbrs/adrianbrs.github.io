@@ -14,6 +14,10 @@ defineProps({
     type: String,
     default: "noopener noreferrer",
   },
+  title: {
+    type: String,
+    required: true,
+  },
   icon: String,
 });
 </script>
@@ -23,6 +27,8 @@ defineProps({
     <slot>
       <CdvIcon v-if="icon" :icon="icon" :size="24"></CdvIcon>
     </slot>
+
+    <span class="cdv-vis-hidden">{{ title }}</span>
   </a>
 </template>
 
@@ -39,8 +45,11 @@ defineProps({
   transition: all 0.15s ease-in-out;
   margin: 0.25rem;
   color: currentColor;
+  position: relative;
+  overflow: visible;
 
-  &:hover {
+  &:hover,
+  &:focus {
     background: var(--cdv-c-white);
     border-color: var(--cdv-c-white);
     color: var(--cdv-c-black-soft);

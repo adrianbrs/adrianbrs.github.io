@@ -55,7 +55,9 @@ export async function setI18nLocale(i18n: I18n, rawLocale: string) {
     (i18n.global.locale as WritableComputedRef<string>).value = locale;
   }
 
-  document.querySelector("html")!.setAttribute("lang", locale);
+  document
+    .querySelector("html")!
+    .setAttribute("lang", locale.replace("_", "-"));
   setVeeValidateLocale(locale);
 }
 

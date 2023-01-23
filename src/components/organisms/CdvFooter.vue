@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useI18n } from "vue-i18n";
 import CdvSocialBtnGroup from "../molecules/CdvSocialBtnGroup.vue";
 
 export interface CdvFooterLink {
@@ -11,6 +12,8 @@ export interface CdvFooterProps {
 }
 
 withDefaults(defineProps<CdvFooterProps>(), {});
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -18,9 +21,13 @@ withDefaults(defineProps<CdvFooterProps>(), {});
     <div
       class="cdv-footer-content flex gap-[16px] items-center justify-between"
     >
-      <div class="cdv-footer-nav flex gap-[16px]" v-if="$slots.nav">
+      <nav
+        class="cdv-footer-nav flex gap-[16px]"
+        v-if="$slots.nav"
+        :aria-label="t('aria_label')"
+      >
         <slot name="nav"></slot>
-      </div>
+      </nav>
 
       <div class="flex flex-1 justify-end">
         <CdvSocialBtnGroup class="justify-self-end"></CdvSocialBtnGroup>
@@ -57,3 +64,10 @@ withDefaults(defineProps<CdvFooterProps>(), {});
   }
 }
 </style>
+
+<i18n lang="yaml">
+en:
+  aria_label: Footer
+pt_BR:
+  aria_label: Rodapé
+</i18n>

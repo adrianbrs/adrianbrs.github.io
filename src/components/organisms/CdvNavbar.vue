@@ -1,25 +1,27 @@
 <script lang="ts" setup>
+import { ref, toRefs, watch } from "vue";
 import type { CdvNavItem } from "@/composables/useNavItems";
 import { useRouter } from "vue-router";
 import { useNavbarMenu } from "@/composables/useNavbarMenu";
-import { useI18n } from "vue-i18n";
+import { useFocusTrap } from "@vueuse/integrations/useFocusTrap";
 import CdvMenuBtn from "../atoms/CdvMenuBtn.vue";
 import CdvBackdrop from "../atoms/CdvBackdrop.vue";
 import CdvNavLink from "../atoms/CdvNavLink.vue";
 import CdvLocaleSwitcher from "../molecules/CdvLocaleSwitcher.vue";
+import { useI18n } from "vue-i18n";
 
 export interface CdvNavbarProps {
   inline?: boolean;
   items: CdvNavItem[];
 }
 
-const { t } = useI18n();
-
-withDefaults(defineProps<CdvNavbarProps>(), {
+const props = withDefaults(defineProps<CdvNavbarProps>(), {
   inline: true,
 });
 
+const { t } = useI18n();
 const { isOpen, toggle, close } = useNavbarMenu();
+const { inline: isInline } = toRefs(props);
 
 const router = useRouter();
 
@@ -28,15 +30,34 @@ router.afterEach(() => {
     close();
   }
 });
+
+watch(isInline, (inline) => {
+  if (inline && isOpen.value) {
+    close();
+  }
+});
+
+const containerRef = ref<HTMLElement>();
+const itemsRef = ref<HTMLElement>();
+const { activate, deactivate } = useFocusTrap(containerRef);
+
+watch(itemsRef, () => {
+  if (isOpen.value) {
+    activate();
+  } else {
+    deactivate();
+  }
+});
 </script>
 
 <template>
   <Transition name="cdv-fade-up" appear>
-    <div v-if="inline" class="cdv-navbar">
+    <div v-if="inline" class="cdv-navbar" ref="containerRef">
       <TransitionGroup
-        tag="div"
-        class="cdv-navbar-items"
+        tag="nav"
         name="cdv-navlist"
+        class="cdv-navbar-items"
+        :aria-label="t('aria_label')"
         appear
       >
         <CdvNavLink
@@ -53,13 +74,16 @@ router.afterEach(() => {
       </Transition>
     </div>
 
-    <div v-else class="cdv-navbar cdv-navbar--fixed">
+    <div v-else class="cdv-navbar cdv-navbar--fixed" ref="containerRef">
       <Transition name="cdv-fade-out-down">
         <TransitionGroup
-          tag="div"
+          v-if="isOpen"
+          tag="nav"
           class="cdv-navbar-items"
           name="cdv-navlist"
-          v-if="isOpen"
+          ref="itemsRef"
+          id="cdvNavbarItems"
+          :aria-label="t('aria_label')"
           appear
         >
           <CdvNavLink
@@ -78,7 +102,12 @@ router.afterEach(() => {
         <slot></slot>
       </div>
 
-      <a class="cdv-nolink cdv-navbar-btn">
+      <a
+        class="cdv-nolink cdv-navbar-btn"
+        aria-controls="cdvNavbarItems"
+        :aria-expanded="isOpen"
+        :aria-label="isOpen ? t('close_menu') : t('open_menu')"
+      >
         <CdvMenuBtn @click="toggle" :close="isOpen"></CdvMenuBtn>
       </a>
     </div>
@@ -182,3 +211,14 @@ router.afterEach(() => {
   }
 }
 </style>
+
+<i18n lang="yaml">
+en:
+  aria_label: Main
+  open_menu: Open menu
+  close_menu: Close menu
+pt_BR:
+  aria_label: Principal
+  open_menu: Abrir menu
+  close_menu: Fechar menu
+</i18n>

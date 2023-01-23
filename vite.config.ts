@@ -14,8 +14,9 @@ export default defineConfig({
     vueJsx(),
     UnoCSS(),
     VueI18nPlugin({
-      /* options */
-      // locale messages resource pre-compile option
+      runtimeOnly: true,
+      compositionOnly: true,
+      defaultSFCLang: "yaml",
       include: resolve(
         dirname(fileURLToPath(import.meta.url)),
         "./src/locales/**"
@@ -25,10 +26,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
-      "vue-i18n": "vue-i18n/dist/vue-i18n.runtime.esm-bundler.js",
     },
-  },
-  build: {
-    chunkSizeWarningLimit: 100,
   },
 });
