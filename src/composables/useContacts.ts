@@ -1,5 +1,5 @@
 import { mdiEmailOutline, mdiPhoneOutline } from "@mdi/js";
-import { computed } from "vue";
+import { computed, type ComputedRef } from "vue";
 import { useI18n } from "vue-i18n";
 
 export interface CdvContactItem {
@@ -9,7 +9,7 @@ export interface CdvContactItem {
   title?: string;
 }
 
-export function useContacts() {
+export function useContacts(): ComputedRef<CdvContactItem[]> {
   const { t } = useI18n({ useScope: "global" });
 
   return computed(() => {
