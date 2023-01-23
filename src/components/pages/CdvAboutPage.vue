@@ -2,7 +2,10 @@
 import { ref } from "vue";
 import { useIsMobile } from "@/composables/useIsMobile";
 import { useShowAnim } from "@/composables/useShowAnim.js";
+import { useI18n } from "vue-i18n";
 import CdvPanel from "@/components/molecules/CdvPanel.vue";
+
+const { t } = useI18n();
 
 const isMobile = useIsMobile();
 
@@ -20,19 +23,18 @@ const show = useShowAnim(page);
             appear
           >
             <h2 key="hello" :style="{ '--cdv-list-i': 0 }">
-              Hello, my name is
+              {{ t("hello") }}
             </h2>
-            <h1 key="name" :style="{ '--cdv-list-i': 1 }">Adrian Cerbaro</h1>
+            <h1 key="name" :style="{ '--cdv-list-i': 1 }">
+              {{ $t("general.name") }}
+            </h1>
           </TransitionGroup>
         </div>
       </section>
       <section class="cdv-about-bio flex-1 flex items-center justify-center">
         <CdvPanel class="flex-1" height="auto">
           <div class="flex-1 flex h-[100%] items-center justify-center">
-            <span>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos
-              pariatur nostrum, possimus magnam vero quaerat.
-            </span>
+            <span>{{ t("bio") }}</span>
           </div>
         </CdvPanel>
       </section>
@@ -77,3 +79,14 @@ const show = useShowAnim(page);
   }
 }
 </style>
+
+<i18n lang="yaml">
+en:
+  hello: Hello, my name is
+  bio: |
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos pariatur nostrum, possimus magnam vero quaerat.
+pt_BR:
+  hello: Olá, meu nome é
+  bio: |
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos pariatur nostrum, possimus magnam vero quaerat.
+</i18n>

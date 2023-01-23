@@ -78,7 +78,8 @@ const isMobile = useIsMobile();
   overflow: hidden;
   position: relative;
 
-  &:hover {
+  &:hover,
+  &:focus {
     .cdv-btn {
       &-wrapper {
         &:not(
@@ -181,21 +182,18 @@ const isMobile = useIsMobile();
     border: 1px solid var(--cdv-c-white);
     color: var(--cdv-c-white);
 
-    &:hover {
+    &:hover,
+    &:focus {
       border: 1px solid var(--cdv-btn-color);
       color: var(--cdv-btn-color);
     }
   }
 
   &:not(&--outlined) {
-    &:hover {
+    &:hover,
+    &:focus {
       color: var(--cdv-c-white);
       background: var(--cdv-btn-color);
-
-      &::before {
-        transform: translate3d(0, 0, 0);
-        // visibility: visible;
-      }
     }
   }
 }

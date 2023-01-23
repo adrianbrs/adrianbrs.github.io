@@ -8,6 +8,9 @@ import CdvPanel from "@/components/molecules/CdvPanel.vue";
 import CdvIcon from "@/components/atoms/CdvIcon.vue";
 import CdvDivider from "@/components/atoms/CdvDivider.vue";
 import CdvContactForm from "@/components/organisms/CdvContactForm.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const isMobile = useIsMobile();
 
@@ -29,7 +32,7 @@ const onSubmit = (values: any) => {
         <CdvPanel height="auto">
           <div class="cdv-contact-panel-content">
             <div class="cdv-contact-panel-heading">
-              <h2>Send me a Message</h2>
+              <h2>{{ t("form.title") }}</h2>
             </div>
 
             <Form @submit="onSubmit">
@@ -46,7 +49,7 @@ const onSubmit = (values: any) => {
             </div>
 
             <div class="cdv-contact-panel-heading mb-0">
-              <h2>Contact Details</h2>
+              <h2>{{ t("form.contact_details") }}</h2>
             </div>
 
             <div class="flex flex-col gap-[16px] w-[100%]">
@@ -83,10 +86,16 @@ const onSubmit = (values: any) => {
               :name="`cdv-list-fade-in-${isMobile ? 'left' : 'up'}`"
               appear
             >
-              <h1 key="touch" :style="{ '--cdv-list-i': 0 }">Get In Touch</h1>
+              <h1 key="touch" :style="{ '--cdv-list-i': 0 }">
+                {{ t("heading.title") }}
+              </h1>
               <p key="touch-desc" :style="{ '--cdv-list-i': 1 }">
-                Use the form {{ isMobile ? "bellow" : "on the side" }} to drop
-                me an email. I will respond as soon as possible.
+                <template v-if="isMobile">{{
+                  t("heading.description.mobile")
+                }}</template>
+                <template v-else>{{
+                  t("heading.description.desktop")
+                }}</template>
               </p>
             </TransitionGroup>
           </div>
@@ -115,6 +124,7 @@ const onSubmit = (values: any) => {
   &-heading {
     text-align: center;
     max-width: 480px;
+    z-index: 2;
 
     > h1 {
       font-size: 3rem;
@@ -152,6 +162,9 @@ const onSubmit = (values: any) => {
   &-artwork {
     max-height: 100%;
     overflow: hidden;
+    z-index: 1;
+    filter: drop-shadow(2px 4px 4px rgba(#0c1118, 0.8))
+      drop-shadow(12px 16px 20px rgba(#0c1118, 0.4));
 
     > img {
       height: 500px;
@@ -216,7 +229,6 @@ const onSubmit = (values: any) => {
     &-artwork {
       height: 100%;
       position: absolute;
-      z-index: -1;
       right: var(--app-spacing);
       overflow: visible;
 
@@ -227,3 +239,24 @@ const onSubmit = (values: any) => {
   }
 }
 </style>
+
+<i18n lang="yaml">
+en:
+  heading:
+    title: Get In Touch
+    description:
+      desktop: Use the form on the side to drop me an email. I will respond as soon as possible.
+      mobile: Use the form below to drop me an email. I will respond as soon as possible.
+  form:
+    title: Send me a Message
+    contact_details: Contact Details
+pt_BR:
+  heading:
+    title: Entrar em Contato
+    description:
+      desktop: Use o formulário ao lado para me enviar um e-mail. Eu responderei assim que possível.
+      mobile: Use o formulário abaixo para me enviar um e-mail. Eu responderei assim que possível.
+  form:
+    title: Mande uma Mensagem
+    contact_details: Detalhes de Contato
+</i18n>

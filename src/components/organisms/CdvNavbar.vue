@@ -1,61 +1,100 @@
 <script lang="ts" setup>
+import { ref, toRefs, watch } from "vue";
+import type { CdvNavItem } from "@/composables/useNavItems";
+import { useRouter } from "vue-router";
+import { useNavbarMenu } from "@/composables/useNavbarMenu";
+import { useFocusTrap } from "@vueuse/integrations/useFocusTrap";
 import CdvMenuBtn from "../atoms/CdvMenuBtn.vue";
 import CdvBackdrop from "../atoms/CdvBackdrop.vue";
 import CdvNavLink from "../atoms/CdvNavLink.vue";
-import { useNavbarMenu } from "@/composables/useNavbarMenu";
-
-export interface CdvNavbarItem {
-  to: string;
-  text: string;
-}
+import CdvLocaleSwitcher from "../molecules/CdvLocaleSwitcher.vue";
+import { useI18n } from "vue-i18n";
 
 export interface CdvNavbarProps {
   inline?: boolean;
-  items: CdvNavbarItem[];
+  items: CdvNavItem[];
 }
 
-withDefaults(defineProps<CdvNavbarProps>(), {
+const props = withDefaults(defineProps<CdvNavbarProps>(), {
   inline: true,
 });
 
-const { isOpen, toggle } = useNavbarMenu();
+const { t } = useI18n();
+const { isOpen, toggle, close } = useNavbarMenu();
+const { inline: isInline } = toRefs(props);
+
+const router = useRouter();
+
+router.afterEach(() => {
+  if (isOpen) {
+    close();
+  }
+});
+
+watch(isInline, (inline) => {
+  if (inline && isOpen.value) {
+    close();
+  }
+});
+
+const containerRef = ref<HTMLElement>();
+const itemsRef = ref<HTMLElement>();
+const { activate, deactivate } = useFocusTrap(containerRef);
+
+watch(itemsRef, () => {
+  if (isOpen.value) {
+    activate();
+  } else {
+    deactivate();
+  }
+});
 </script>
 
 <template>
   <Transition name="cdv-fade-up" appear>
-    <div v-if="inline" class="cdv-navbar">
+    <div v-if="inline" class="cdv-navbar" ref="containerRef">
       <TransitionGroup
-        tag="div"
-        class="cdv-navbar-items"
+        tag="nav"
         name="cdv-navlist"
+        class="cdv-navbar-items"
+        :aria-label="t('aria_label')"
         appear
       >
         <CdvNavLink
           v-for="(item, i) in items"
-          :to="item.to"
-          :key="item.to"
+          v-bind="item"
+          :key="item.name"
           :style="{ '--cdv-navlist-i': i }"
-          >{{ item.text }}</CdvNavLink
+          >{{ item.label }}</CdvNavLink
         >
       </TransitionGroup>
+
+      <Transition name="cdv-fade" appear>
+        <CdvLocaleSwitcher class="ml-[16px]" />
+      </Transition>
     </div>
 
-    <div v-else class="cdv-navbar cdv-navbar--fixed">
+    <div v-else class="cdv-navbar cdv-navbar--fixed" ref="containerRef">
       <Transition name="cdv-fade-out-down">
         <TransitionGroup
-          tag="div"
+          v-if="isOpen"
+          tag="nav"
           class="cdv-navbar-items"
           name="cdv-navlist"
-          v-if="isOpen"
+          ref="itemsRef"
+          id="cdvNavbarItems"
+          :aria-label="t('aria_label')"
           appear
         >
           <CdvNavLink
             v-for="(item, i) in items"
-            :to="item.to"
-            :key="item.to"
+            v-bind="item"
+            :key="item.name"
             :style="{ '--cdv-navlist-i': i }"
-            >{{ item.text }}</CdvNavLink
+            >{{ item.label }}</CdvNavLink
           >
+
+          <CdvLocaleSwitcher key="switcher" />
         </TransitionGroup>
       </Transition>
 
@@ -63,9 +102,14 @@ const { isOpen, toggle } = useNavbarMenu();
         <slot></slot>
       </div>
 
-      <a class="cdv-nolink cdv-navbar-btn" v-if="!inline">
-        <CdvMenuBtn @click="toggle" :close="isOpen"></CdvMenuBtn>
-      </a>
+      <CdvMenuBtn
+        class="cdv-navbar-btn"
+        @click="toggle"
+        :close="isOpen"
+        aria-controls="cdvNavbarItems"
+        :aria-expanded="isOpen"
+        :aria-label="isOpen ? t('close_menu') : t('open_menu')"
+      ></CdvMenuBtn>
     </div>
   </Transition>
 
@@ -87,13 +131,14 @@ const { isOpen, toggle } = useNavbarMenu();
   z-index: 999;
   left: 0;
   right: 0;
-  filter: drop-shadow(1px 1px var(--cdv-c-indigo))
+  filter: drop-shadow(1px 1px rgba(0, 0, 0, 0.4))
     drop-shadow(0 0 6px rgba(0, 0, 0, 0.4));
 
   &-title {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--cdv-c-white);
+    user-select: none;
   }
 
   &-items {
@@ -138,6 +183,10 @@ const { isOpen, toggle } = useNavbarMenu();
         }
       }
     }
+
+    .cdv-locale-switcher {
+      margin-top: 48px;
+    }
   }
 }
 
@@ -154,7 +203,7 @@ const { isOpen, toggle } = useNavbarMenu();
   }
 
   &-enter-from {
-    opacity: 0;
+    opacity: 0 !important;
   }
 
   &-enter-from {
@@ -162,3 +211,14 @@ const { isOpen, toggle } = useNavbarMenu();
   }
 }
 </style>
+
+<i18n lang="yaml">
+en:
+  aria_label: Main
+  open_menu: Open menu
+  close_menu: Close menu
+pt_BR:
+  aria_label: Principal
+  open_menu: Abrir menu
+  close_menu: Fechar menu
+</i18n>

@@ -1,35 +1,47 @@
 <script lang="ts" setup>
 import { mdiChevronRight } from "@mdi/js";
-import { computed } from "vue";
-import CdvIcon from "@/components/atoms/CdvIcon.vue";
+import { computed, unref, type Ref, toRefs, ref, watchEffect } from "vue";
+import type { CdvNavItem } from "@/composables/useNavItems";
 import { useScrollTarget } from "@/composables/useScrollTarget";
 import { useScroll } from "@vueuse/core";
+import CdvIcon from "@/components/atoms/CdvIcon.vue";
 
 export interface CdvPageIndicatorProps {
-  items: string[];
-  heights: number[];
+  items: CdvNavItem[];
+  heights: (number | Ref<number>)[];
 }
 
 const props = defineProps<CdvPageIndicatorProps>();
+const propsRef = toRefs(props);
 
 const scrollTarget = useScrollTarget();
 const { y: scrollTop } = useScroll(scrollTarget);
 
 const distances = computed(() =>
-  props.heights.reduce((arr, d, i) => {
-    return [...arr, d + (arr[i - 1] ?? 0)];
+  propsRef.heights.value.reduce((arr, d, i) => {
+    return [...arr, unref(d) + (arr[i - 1] ?? 0)];
   }, [] as number[])
 );
 
-const position = computed(() => {
+const position = ref(0);
+
+watchEffect(() => {
   const index = distances.value.findIndex(
     (d, i, arr) => scrollTop.value < d || i === arr.length - 1
   );
-  const height = props.heights[index];
+  const height = propsRef.heights.value[index];
   const distance = distances.value[index];
-  const relativeDistance = height - (distance - scrollTop.value);
-  const percentage = relativeDistance / height;
-  return Math.min(index * 64 + percentage * 64, (props.items.length - 1) * 64);
+  const relativeDistance = unref(height) - (distance - scrollTop.value);
+  const percentage = relativeDistance / unref(height);
+  // const percentage = 0;
+  const newPosition = Math.min(
+    index * 64 + percentage * 64,
+    (propsRef.items.value.length - 1) * 64
+  );
+
+  if (newPosition !== position.value) {
+    position.value = newPosition;
+  }
 });
 </script>
 
@@ -43,7 +55,7 @@ const position = computed(() => {
           transform: `translate3d(0, ${-position}px, 0)`,
         }"
       >
-        <span v-for="name in items" :key="name">{{ name }}</span>
+        <span v-for="item in items" :key="item.name">{{ item.label }}</span>
       </div>
     </div>
   </div>
@@ -96,6 +108,7 @@ const position = computed(() => {
   &-items {
     display: flex;
     flex-direction: column;
+    transition: transform 0.1s ease;
 
     > span {
       display: flex;

@@ -5,6 +5,10 @@ const props = defineProps({
   title: String,
   role: String,
   ariaLabel: String,
+  ariaHidden: {
+    type: Boolean,
+    default: true,
+  },
   fill: {
     type: String,
     default: "currentColor",
@@ -58,7 +62,13 @@ const iconSVG = computed(() => {
 </script>
 
 <template>
-  <span v-if="!iconSVG" class="cdv-icon" :role="role" :aria-label="ariaLabel">
+  <span
+    v-if="!iconSVG"
+    class="cdv-icon"
+    :role="role"
+    :aria-label="ariaLabel"
+    :aria-hidden="ariaHidden"
+  >
     <svg
       :fill="fill ?? 'currentColor'"
       :width="width ?? size ?? 24"

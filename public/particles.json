@@ -1,5 +1,5 @@
 {
-  "fpsLimit": 60,
+  "fpsLimit": 36,
   "interactivity": {
     "events": {
       "onClick": {
@@ -8,12 +8,7 @@
       },
       "onHover": {
         "enable": true,
-        "mode": "grab",
-        "parallax": {
-          "enable": true,
-          "force": 150,
-          "smooth": 40
-        }
+        "mode": "grab"
       }
     },
     "modes": {
@@ -27,21 +22,21 @@
         "size": 40
       },
       "push": {
-        "quantity": 3
+        "quantity": 1
       },
       "connect": {
         "distance": 20,
         "links": {
           "opacity": 0.3
         },
-        "radius": 60
+        "radius": 20
       },
       "grab": {
-        "distance": 220,
+        "distance": 140,
         "links": {
           "blink": false,
           "consent": false,
-          "opacity": 0.3
+          "opacity": 0.2
         }
       }
     }
@@ -65,12 +60,13 @@
       "enable": true,
       "outMode": "bounce",
       "random": true,
-      "speed": 2,
+      "speed": 0.5,
       "straight": false
     },
     "number": {
       "density": {
-        "enable": false
+        "enable": true,
+        "area": 1280
       },
       "value": 80
     },
@@ -82,7 +78,7 @@
     },
     "size": {
       "random": true,
-      "value": 5
+      "value": 2
     }
   },
   "detectRetina": true
