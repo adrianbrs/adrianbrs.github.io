@@ -11,7 +11,8 @@
   },
   "head": {
     "title": "@:general.name — @:general.title",
-    "page_sep": " {'|'} "
+    "page_sep": " {'|'} ",
+    "description": "Desenvolvedor de Software Full-Stack"
   },
   "general": {
     "name": "Adrian Cerbaro",

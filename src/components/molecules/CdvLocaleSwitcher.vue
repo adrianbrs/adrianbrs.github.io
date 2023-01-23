@@ -2,15 +2,12 @@
 import { useLocale } from "@/composables/useLocale";
 import { useI18n } from "vue-i18n";
 import { mdiTranslate } from "@mdi/js";
+import { getLang } from "@/i18n";
 import CdvIcon from "../atoms/CdvIcon.vue";
 
 const { t } = useI18n();
 
 const { locale, availableLocales } = useLocale();
-
-function getLang(code: string) {
-  return code.replace("_", "-");
-}
 </script>
 
 <template>

@@ -102,14 +102,14 @@ watch(itemsRef, () => {
         <slot></slot>
       </div>
 
-      <a
-        class="cdv-nolink cdv-navbar-btn"
+      <CdvMenuBtn
+        class="cdv-navbar-btn"
+        @click="toggle"
+        :close="isOpen"
         aria-controls="cdvNavbarItems"
         :aria-expanded="isOpen"
         :aria-label="isOpen ? t('close_menu') : t('open_menu')"
-      >
-        <CdvMenuBtn @click="toggle" :close="isOpen"></CdvMenuBtn>
-      </a>
+      ></CdvMenuBtn>
     </div>
   </Transition>
 

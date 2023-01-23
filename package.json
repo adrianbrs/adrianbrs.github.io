@@ -16,6 +16,7 @@
     "@vee-validate/i18n": "^4.7.3",
     "@vee-validate/rules": "^4.7.3",
     "@vueuse/core": "^9.11.0",
+    "@vueuse/head": "^1.0.23",
     "@vueuse/integrations": "^9.11.1",
     "focus-trap": "^7.2.0",
     "lodash-es": "^4.17.21",

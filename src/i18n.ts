@@ -25,6 +25,10 @@ const LOCALE_FALLBACK_MAP = SUPPORT_LOCALES.reduce((map, locale) => {
   return map;
 }, new Map<string, string>());
 
+export function getLang(locale: string): string {
+  return locale.replace("_", "-");
+}
+
 export function isLocaleSupported(locale: string): locale is CdvLocale {
   return SUPPORT_LOCALES_SET.has(locale as CdvLocale);
 }
@@ -55,9 +59,6 @@ export async function setI18nLocale(i18n: I18n, rawLocale: string) {
     (i18n.global.locale as WritableComputedRef<string>).value = locale;
   }
 
-  document
-    .querySelector("html")!
-    .setAttribute("lang", locale.replace("_", "-"));
   setVeeValidateLocale(locale);
 }
 

@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import { inject, watch } from "vue";
+import { computed, inject, watch } from "vue";
 import { useLocale } from "./composables/useLocale";
 import { setI18nLocale } from "./i18n";
+import { useHead } from "@vueuse/head";
+import { getLang } from "@/i18n";
 import type { I18n } from "vue-i18n";
 
 const i18n = inject<I18n>("i18n")!;
@@ -14,6 +16,12 @@ watch(
   },
   { immediate: true }
 );
+
+useHead({
+  htmlAttrs: {
+    lang: computed(() => getLang(locale.value ?? "en")),
+  },
+});
 </script>
 
 <template>

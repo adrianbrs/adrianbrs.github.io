@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import { loadFull } from "tsparticles";
+import { loadFull } from "tsparticles";
 import { useElementSize, useScroll, useTitle } from "@vueuse/core";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { useScrollTarget } from "@/composables/useScrollTarget";
@@ -11,16 +11,17 @@ import { useRoutePages } from "@/composables/useRoutePages";
 import { usePageSizes } from "@/composables/usePageSizes";
 import { useActivePage } from "@/composables/useActivePage";
 import { useI18n } from "vue-i18n";
+import { useHead } from "@vueuse/head";
 import CdvNavbar from "../organisms/CdvNavbar.vue";
 import CdvPageIndicator from "../molecules/CdvPageIndicator.vue";
 import CdvFooter from "../organisms/CdvFooter.vue";
 import CdvNavLink from "../atoms/CdvNavLink.vue";
 
-const { t } = useI18n();
+const { t, te } = useI18n();
 
-// const particlesInit = async (engine: any) => {
-//   await loadFull(engine);
-// };
+const particlesInit = async (engine: any) => {
+  await loadFull(engine);
+};
 
 const scrollTarget = useScrollTarget();
 const { y: scrollTop, isScrolling } = useScroll(scrollTarget);
@@ -43,13 +44,25 @@ const currentPage = computed(() =>
 const pageReady = ref(false);
 const navigating = ref(false);
 
-useTitle(
-  computed(() => {
+useHead({
+  title: computed(() => {
     const page = currentPage.value;
-    const pageName = page ? t(`pages.${page.page.name}.title`) : null;
+    const pageKey = page ? `pages.${page.page.name}.title` : null;
+    const pageName = pageKey && te(pageKey) ? t(pageKey) : null;
     return `${pageName ? pageName + t("head.page_sep") : ""}${t("head.title")}`;
-  })
-);
+  }),
+  meta: [
+    {
+      name: "description",
+      content: computed(() => {
+        const page = currentPage.value;
+        const pageKey = page ? `pages.${page.page.name}.description` : null;
+        const pageDesc = pageKey && te(pageKey) ? t(pageKey) : null;
+        return pageDesc || t("head.description");
+      }),
+    },
+  ],
+});
 
 function getScrollAlign(threshold = 100) {
   const target = currentPage.value?.component.$el as HTMLElement;
@@ -162,12 +175,12 @@ const inlineNavbar = computed(() => !isMobile.value && !isScrollingDown.value);
       </CdvFooter>
     </main>
 
-    <!-- <Particles
+    <Particles
       class="fixed z-[-1]"
       id="app-particles"
       url="/particles.json"
       :particlesInit="particlesInit"
-    /> -->
+    />
   </div>
 </template>
 
