@@ -14,6 +14,17 @@ export interface CdvProjectItem {
 
 const projects = reactive<CdvProjectItem[]>([
   {
+    title: "eBrainz",
+    image: {
+      src: "/img/projects/ebrainz.png",
+      width: 1200,
+      height: 630,
+    },
+    description:
+      "Website of a company that connects brands to their target communities using the universe of games as a tool.",
+    href: "https://ebrainz.com.br",
+  },
+  {
     title: "Pubby.club",
     image: {
       src: "/img/projects/pubby_club.svg",
@@ -31,7 +42,8 @@ const projects = reactive<CdvProjectItem[]>([
       width: 479,
       height: 250,
     },
-    description: "Automotive upholstery company in southern Brazil",
+    description:
+      "Website of an automotive upholstery company in southern Brazil",
     href: "https://cerbaroestof.com.br",
   },
 ]);

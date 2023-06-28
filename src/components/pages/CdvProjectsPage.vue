@@ -17,7 +17,7 @@ const projects = useProjects();
 <template>
   <div class="cdv-page cdv-projects flex items-center justify-start">
     <div
-      class="cdv-h-scroll flex items-stretch gap-[64px] h-[500px]"
+      class="flex flex-wrap items-stretch justify-center px-4 gap-[64px] min-h-[500px] max-w-100%"
       v-if="show"
     >
       <TransitionGroup name="cdv-list-fade-in-up" appear>
@@ -25,11 +25,16 @@ const projects = useProjects();
           v-for="(project, i) in projects"
           :key="project.title"
           :style="{ '--cdv-list-i': i }"
-          class="cdv-scroll-item flex-grow-0 flex-shrink-1 flex-basis-[0%]"
+          class="flex-grow-0 flex-shrink-1 flex-basis-[0%] max-w-100%"
           :title="project.title"
         >
           <template #image>
-            <div class="!h-[290px]">
+            <div
+              class="max-h-[290px]"
+              :style="{
+                aspectRatio: project.image.width + '/' + project.image.height,
+              }"
+            >
               <img
                 class="w-[auto] h-[100%]"
                 :src="project.image.src"
