@@ -5,7 +5,6 @@ import CdvIcon from "../atoms/CdvIcon.vue";
 export interface CdvStackListItem {
   icon: string;
   label: string;
-  percentage?: number;
 }
 
 export interface CdvStackListProps {
@@ -46,13 +45,6 @@ withDefaults(defineProps<CdvStackListProps>(), {});
 
           <div class="cdv-stack-list-item-text ml-[8px] mr-[4px]">
             <span>{{ item.label }}</span>
-          </div>
-
-          <div
-            v-if="(item.percentage ?? null) !== null"
-            class="cdv-stack-list-item-percentage"
-          >
-            <span>({{ item.percentage }}%)</span>
           </div>
         </div>
       </TransitionGroup>

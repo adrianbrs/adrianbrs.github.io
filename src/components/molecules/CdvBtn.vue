@@ -12,6 +12,7 @@ export interface CdvBtnProps {
   color?: string;
   arrow?: boolean;
   type?: string;
+  disabled?: boolean;
 }
 
 withDefaults(defineProps<CdvBtnProps>(), {
@@ -36,6 +37,7 @@ const isMobile = useIsMobile();
       '--cdv-btn-color': color,
     }"
     :type="type"
+    :disabled="disabled"
     ref="btn"
   >
     <Transition
@@ -77,6 +79,13 @@ const isMobile = useIsMobile();
   transition: all var(--cdv-btn-timing) var(--cdv-btn-easing);
   overflow: hidden;
   position: relative;
+  user-select: none;
+
+  &[disabled] {
+    opacity: 0.7;
+    filter: grayscale(1);
+    cursor: not-allowed !important;
+  }
 
   &:hover,
   &:focus {

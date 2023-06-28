@@ -21,7 +21,7 @@ withDefaults(defineProps<CdvCardProps>(), {});
     <h2 class="cdv-card-title">{{ title }}</h2>
 
     <div
-      class="cdv-card-content flex flex-col flex-grow-1 flex-shrink-0 flex-basis-auto"
+      class="cdv-card-content flex flex-col flex-grow-1 flex-shrink-0 flex-basis-auto max-w-100%"
     >
       <div class="cdv-card-image">
         <slot name="image"></slot>

@@ -59,7 +59,7 @@ localize({
     </div>
 
     <div class="flex justify-end">
-      <CdvBtn type="submit" rounded arrow>{{ t("submit") }}</CdvBtn>
+      <CdvBtn type="submit" rounded arrow disabled>{{ t("submit") }}</CdvBtn>
     </div>
   </div>
 </template>

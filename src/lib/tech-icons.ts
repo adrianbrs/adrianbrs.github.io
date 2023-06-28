@@ -20,6 +20,7 @@ import {
   typescriptIcon,
   vueIcon,
   vuetifyIcon,
+  redisIcon,
 } from "@/assets/svg";
 
 export interface CdvTechIconOptions {
@@ -44,6 +45,7 @@ const techIcons = {
   sassIcon: { icon: sassIcon, label: "Sass" },
   postgreSqlIcon: { icon: postgreSqlIcon, label: "PostgreSQL" },
   mongodbIcon: { icon: mongodbIcon, label: "MongoDB" },
+  redisIcon: { icon: redisIcon, label: "Redis" },
   vuetifyIcon: { icon: vuetifyIcon, label: "Vuetify" },
   nuxtjsIcon: { icon: nuxtjsIcon, label: "NuxtJS" },
   expressIcon: { icon: expressIcon, label: "ExpressJS " },

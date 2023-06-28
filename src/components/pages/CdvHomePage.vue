@@ -22,6 +22,7 @@ const rightIcons = [
   techIcons.sassIcon,
   techIcons.postgreSqlIcon,
   techIcons.mongodbIcon,
+  techIcons.redisIcon,
 ];
 </script>
 

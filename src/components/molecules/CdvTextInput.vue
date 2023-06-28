@@ -163,6 +163,7 @@ const errHeight = computed(() => errMessageRef?.value?.offsetHeight ?? 0);
     font-size: inherit;
     color: var(--cdv-c-text-dark-1);
     transition: height 0.3s cubic-bezier(0.45, 0, 0.55, 1);
+    outline: none;
   }
 
   &-textarea {

@@ -21,3 +21,4 @@ export { default as vueIcon } from "./vue.svg?raw";
 export { default as vuetifyIcon } from "./vuetify.svg?raw";
 export { default as githubAltIcon } from "./githubalt.svg?raw";
 export { default as linkedinIcon } from "./linkedin.svg?raw";
+export { default as redisIcon } from "./redis.svg?raw";
