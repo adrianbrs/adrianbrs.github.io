@@ -6,12 +6,16 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 import UnoCSS from "unocss/vite";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import { dirname, resolve } from "node:path";
+import Markdown from "vite-plugin-vue-markdown";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      include: [/\.vue$/, /\.md$/],
+    }),
     vueJsx(),
+    Markdown(),
     UnoCSS(),
     VueI18nPlugin({
       runtimeOnly: true,

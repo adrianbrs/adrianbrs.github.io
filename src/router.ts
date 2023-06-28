@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import CdvNotFoundPage from "@/components/pages/CdvNotFoundPage.vue";
 import CdvDefaultTemplate from "@/components/templates/CdvDefaultTemplate.vue";
 import CdvHomePage from "@/components/pages/CdvHomePage.vue";
-import CdvAboutPage from "@/components/pages/CdvAboutPage.vue";
+import CdvAboutPage from "@/components/pages/about/CdvAboutPage.vue";
 import CdvStackPage from "@/components/pages/CdvStackPage.vue";
 import CdvProjectsPage from "@/components/pages/CdvProjectsPage.vue";
 import CdvContactPage from "@/components/pages/CdvContactPage.vue";

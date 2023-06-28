@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { loadFull } from "tsparticles";
-import { useElementSize, useScroll, useTitle } from "@vueuse/core";
+import { useElementSize, useScroll } from "@vueuse/core";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { useScrollTarget } from "@/composables/useScrollTarget";
 import { useIsMobile } from "@/composables/useIsMobile";
