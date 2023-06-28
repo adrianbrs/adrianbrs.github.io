@@ -6,8 +6,8 @@ I started studying **Computer Science** at the age of 18, where I had the opport
 
 Currently I work as a full-stack developer, using technologies such as:
 
-- Front-End: Vue, Angular e React;
-- Back-End: NodeJS, Java, PHP e Python;
+- Front-End: Vue, Angular and React;
+- Back-End: NodeJS, Java, PHP and Python;
 - Databases: relational (PostgreSQL) and non-relational (MongoDB, Redis);
 
 I have experience with DevOps, using Google Cloud Platform, GitHub Actions and Docker, and experience in creating themes and apps for the Shopify platform, using Liquid and GraphQL.
